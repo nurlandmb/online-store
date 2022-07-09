@@ -9,18 +9,18 @@ const userRouter = express.Router();
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ phone: req.body.phone });
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
       res.send({
         _id: user._id,
         name: user.name,
-        email: user.email,
+        phone: user.phone,
         isAdmin: user.isAdmin,
         token: generateToken(user),
       });
       return;
     }
-    res.status(401).send({ message: 'Invalid email or password' });
+    res.status(401).send({ message: 'Invalid phone or password' });
   })
 );
 
@@ -29,14 +29,14 @@ userRouter.post(
   expressAsyncHandler(async (req, res) => {
     const newUser = new User({
       name: req.body.name,
-      email: req.body.email,
+      phone: req.body.phone,
       password: bcrypt.hashSync(req.body.password),
     });
     const user = await newUser.save();
     res.send({
       id: user._id,
       name: user.name,
-      email: user.email,
+      phone: user.phone,
       isAdmin: user.isAdmin,
       token: generateToken(user),
     });
@@ -50,7 +50,7 @@ userRouter.post(
     const user = await User.findById(req.user._id);
     if (user && bcrypt.compareSync(req.body.oldPassword, user.password)) {
       user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
+      user.phone = req.body.phone || user.phone;
       if(req.body.newPassword){
         user.password = bcrypt.hashSync(req.body.newPassword, 8)
       }
@@ -58,7 +58,7 @@ userRouter.post(
       res.send({
         _id: updatedUser._id,
         name: updatedUser._name,
-        email: updatedUser.email,
+        phone: updatedUser.phone,
         isAdmin: updatedUser.isAdmin,
         token: generateToken(updatedUser)
       })
