@@ -34,6 +34,7 @@ productRouter.post(
     product.priceWithDiscount =
     req.body.priceWithDiscount || product.priceWithDiscount;
     product.keywords = req.body.keywords || product.keywords;
+    product.isVisible = req.body.isVisible || product.isVisible;
 
     const updatedProduct = await product.save();
     res.send(updatedProduct);
@@ -52,7 +53,6 @@ productRouter.post(
       price: req.body.price,
       isPopular: req.body.isPopular,
       priceWithDiscount: req.body.priceWithDiscount,
-      keywords: req.body.keywords
     })
     const product = await newProduct.save();
     res.send(product);
