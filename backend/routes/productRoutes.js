@@ -30,11 +30,10 @@ productRouter.post(
     product.image = req.body.image || product.image;
     product.category = req.body.category || product.category;
     product.price = req.body.price || product.price;
-    product.isPopular = req.body.isPopular || product.isPopular;
-    product.priceWithDiscount =
-    req.body.priceWithDiscount || product.priceWithDiscount;
+    product.isPopular = req.body.isPopular;
+    product.priceWithDiscount = req.body.priceWithDiscount;
     product.keywords = req.body.keywords || product.keywords;
-    product.isVisible = req.body.isVisible || product.isVisible;
+    product.isVisible = req.body.isVisible;
 
     const updatedProduct = await product.save();
     res.send(updatedProduct);
@@ -53,9 +52,24 @@ productRouter.post(
       price: req.body.price,
       isPopular: req.body.isPopular,
       priceWithDiscount: req.body.priceWithDiscount,
-    })
+    });
     const product = await newProduct.save();
     res.send(product);
+  })
+);
+
+productRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      await product.remove();
+      res.send({ message: 'Product Deleted' });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
   })
 );
 
