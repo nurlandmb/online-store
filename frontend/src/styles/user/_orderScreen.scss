@@ -1,0 +1,110 @@
+.order {
+  text-align: center;
+  &__title {
+    margin-bottom: 50px;
+    text-align: left;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  &__form-wrapper {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  &__form-radio {
+    margin: 0;
+    flex: 0 0 50%;
+    &:first-child label {
+      border-radius: 10px 0px 0px 10px;
+    }
+    &:last-child label {
+      border-radius: 0 10px 10px 0px;
+    }
+    &__label {
+      border: 1px solid #72a479;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 20px 54px;
+      display: block;
+      cursor: pointer;
+      transition: all 0.3s;
+      &.active {
+        background-color: #72a479;
+      }
+    }
+    &__input {
+      display: none;
+    }
+  }
+  &__form-input {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px 30px;
+    font-size: 16px;
+    background: transparent;
+    margin-bottom: 15px;
+    color: var(--text-main);
+    &::placeholder{
+      color: var(--text-second);
+    }
+  }
+  &__form-submit{
+    padding: 17px 50px;
+    background: #72a479;
+    border: 1px solid #72a479;
+    transition: all .3s;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 10px;
+    &:hover{
+      background: transparent;
+      color: #72a479;
+    }
+  }
+  &__form-select{
+    position: relative;
+    &__button{
+      text-align: left;
+      background: transparent;
+      border: 1px solid #72a479;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      color: #72a479;
+      width: 100%;
+      text-align: left;
+    }
+    &__dropdown{
+      position: absolute;
+      display: flex;
+      right: 0;
+      top: 70%;
+      flex-direction: column;
+      border-radius: 10px;
+      padding: 20px 10px;
+      background: var(--bg-second);
+      border: 1px solid #fff;
+      min-width: 100px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all .3s;
+      &.active{
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    &__dropdown-item{
+      text-align: left;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 5px 0;
+      margin-bottom: 5px;
+    }
+  }
+}

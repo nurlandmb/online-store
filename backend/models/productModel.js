@@ -9,7 +9,9 @@ const productSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     isPopular: { type: Boolean, required: true, default: false },
     priceWithDiscount: {type: Number, required: false},
-    keywords: { type: Array, required: false }
+    keywords: { type: Array, required: false },
+    isVisible: { type: Boolean, default: true, required: false },
+    shortInfo: { type: String, default: '', required: false }
   },
   {
     timestamps: true,

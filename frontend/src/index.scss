@@ -1,0 +1,12 @@
+@use './styles/style.scss';
+body {
+  min-height: 100vh;
+}
+#root {
+  min-height: 100vh;
+  height: 100%;
+}
+.navbar{
+  width: 95%;
+  margin: .5rem auto .5rem;
+}
