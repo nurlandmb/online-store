@@ -4,6 +4,7 @@ import {
   CART_SEND_SUCCESS,
   CART_SEND_ERROR,
 } from '../actionTypes';
+import axios from 'axios';
 
 export const countQuantity = (cart) =>
   cart.reduce((acc, product) => (acc += product.quantity), 0);
@@ -44,11 +45,14 @@ export const cartHandler = (product, type, cart) => (dispatch) => {
   }
   const quantity = countQuantity(newCart);
   const total = countTotal(newCart);
-  localStorage.setItem('nurlan-online-store-cart',JSON.stringify({ cartItems: newCart, quantity, total }))
+  localStorage.setItem(
+    'nurlan-online-store-cart',
+    JSON.stringify({ cartItems: newCart, quantity, total })
+  );
   dispatch(cartEdit({ cartItems: newCart, quantity, total }));
 };
 
-export const cartSend = (cart, shipment) => (dispatch) => {
+export const cartSend = (cart, shipment) => async (dispatch) => {
   const products = cart.cartItems.map((item) => {
     return {
       name: item.name,
@@ -58,7 +62,16 @@ export const cartSend = (cart, shipment) => (dispatch) => {
       quantity: item.quantity,
     };
   });
-  console.log(products, shipment);
+  const commentProducts = products.reduce(
+    (acc, item, i) => (acc += ` ${i + 1}. ${item.name} - ${item.quantity}; <br>`),
+    'Выбранные товары: <br>'
+  );
+  const commentUser = `Коментарий от покупателя: ${shipment.comment} <br>`;
+  const commentTotal = `Полная цена: ${cart.total} <br>`;
+  const comment = commentProducts + commentUser + commentTotal;
+  console.log(comment);
+  const res = await axios.post(`${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${shipment.address}&FIELDS[COMMENTS]=${comment}`);
+  console.log(res);
 };
 
 export const cartSendStart = () => {

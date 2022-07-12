@@ -3,10 +3,12 @@ import Popup from '../../common/Popup';
 import { connect } from 'react-redux';
 import Loader from '../../common/Loader';
 import { cartSend } from '../../redux/actions/cart';
+import InputMask from 'react-input-mask';
 
 function OrderPopup(props) {
   const [shipment, setShipment] = useState(true);
   const [name, setName] = useState(props.profile.shippingInfo.name || '');
+  const [phone, setPhone] = useState(props.profile.shippingInfo.phone || '');
   const [address, setAddress] = useState(
     props.profile.shippingInfo.address || ''
   );
@@ -33,6 +35,9 @@ function OrderPopup(props) {
     const invalidInputs = inputValues
       .map((input, i) => (!String(input).trim() ? inputNames[i] : ''))
       .filter((item) => !!item);
+    if (phone.replace(/\D/g, '').length !== 11) {
+      invalidInputs.push('phone');
+    }
     const parent = document.querySelector('.order-popup__form');
     invalidInputs.forEach((inputId) => {
       const input = parent.querySelector('#' + inputId);
@@ -43,10 +48,9 @@ function OrderPopup(props) {
 
   const orderSubmitHandler = (e) => {
     e.preventDefault();
-    console.log('validateing', shipment);
     const validate = shipment ? validateForms() : false;
     if (validate) return;
-    props.cartSend(props.cart, { name, address, shipment, comment });
+    props.cartSend(props.cart, { name, phone, address, shipment, comment });
   };
   return (
     <Popup
@@ -117,6 +121,26 @@ function OrderPopup(props) {
                 onBlur={(e) => inputBlurHandler(e)}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="active order-popup__form-input" id="phone">
+              <label
+                className={
+                  name
+                    ? 'active order-popup__form-input__label'
+                    : 'order-popup__form-input__label'
+                }
+              >
+                Ваш номер
+              </label>
+              <InputMask
+                type="tel"
+                mask="+9 (999) 999 9999"
+                className="order-popup__form-input__item"
+                onFocus={(e) => inputFocusHandler(e)}
+                onBlur={(e) => inputBlurHandler(e)}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </div>
             <div className="active order-popup__form-input" id="address">
