@@ -4,8 +4,6 @@ import {
   USER_SIGNIN_ERROR,
 } from '../actionTypes';
 import axios from 'axios'
-import { useNavigate, useLocation } from 'react-router-dom';
-axios.defaults.baseURL = 'http://localhost:5000';
 
 export const signInHandler = (user) => async (dispatch) => {
   dispatch(userSignIn());
