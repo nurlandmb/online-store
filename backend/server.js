@@ -32,6 +32,11 @@ app.use('/api/upload', uploadRouter);
 app.use('/api/product', productRouter);
 app.use('/api/order', orderRouter);
 
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/build')))
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/frontend/build/index.html')))
+
+
 app.get(
   '/api/hello',
   expressAsyncHandler(async (req, res) => {
