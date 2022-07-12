@@ -26,6 +26,7 @@ function AdminProductsScreen(props) {
     isPopular: false,
     priceWithDiscount: '',
     category: '',
+    shortInfo: '',
   });
   const [imgUpload, setImgUpload] = useState(false);
   useEffect(() => {
@@ -37,7 +38,10 @@ function AdminProductsScreen(props) {
   useEffect(() => {
     setEditingProduct({
       ...props.adminProduct.product,
-      discount: typeof(props.adminProduct.product.priceWithDiscount) !== 'object' ? true : false,
+      discount:
+        typeof props.adminProduct.product.priceWithDiscount !== 'object'
+          ? true
+          : false,
     });
   }, [props.adminProduct.product]);
 
@@ -82,29 +86,33 @@ function AdminProductsScreen(props) {
       setImgUpload(false);
     }
   };
-  
+
   const validateForms = () => {
     const { image, name, description, price, category } = editingProduct;
 
     const inputs = { image, name, description, price, category };
-    if(editingProduct.discount){
-      inputs.priceWithDiscount = typeof(editingProduct.priceWithDiscount) === 'object' ? '' : editingProduct.priceWithDiscount
+    if (editingProduct.discount) {
+      inputs.priceWithDiscount =
+        typeof editingProduct.priceWithDiscount === 'object'
+          ? ''
+          : editingProduct.priceWithDiscount;
     }
     const inputNames = Object.keys(inputs);
     const inputValues = Object.values(inputs);
-    const invalidInputs = inputValues.map((input, i) =>
-      !String(input).trim() ? inputNames[i] : ''
-    ).filter(item => !!item);
+    const invalidInputs = inputValues
+      .map((input, i) => (!String(input).trim() ? inputNames[i] : ''))
+      .filter((item) => !!item);
     const parent = document.querySelector('.admin-products__popup');
     invalidInputs.forEach((inputId) => {
       const input = parent.querySelector('#' + inputId);
       input.classList.add('invalid');
     });
-    return !!invalidInputs.length
+    return !!invalidInputs.length;
   };
   const formSendHandler = async (e) => {
     e.preventDefault();
-    if(validateForms()) return
+    if (validateForms()) return;
+    
     if (editingProduct.type === 'create') {
       props.createProduct(editingProduct, props.profile.userInfo);
     } else {
@@ -206,6 +214,27 @@ function AdminProductsScreen(props) {
               }
             />
           </div>
+          <div className="admin-products__form-wrapper" id="name">
+            <label
+              className={
+                editingProduct.shortInfo
+                  ? 'active admin-products__form-placeholder'
+                  : 'admin-products__form-placeholder'
+              }
+            >
+              Короткая информация
+            </label>
+            <input
+              onBlur={inputBlurHandler}
+              onFocus={inputFocusHandler}
+              className="admin-products__form-input"
+              type="text"
+              value={editingProduct.shortInfo}
+              onChange={(e) =>
+                setEditingProduct({ ...editingProduct, shortInfo: e.target.value })
+              }
+            />
+          </div>
           <div className="admin-products__form-wrapper" id="description">
             <textarea
               onBlur={inputBlurHandler}
@@ -244,7 +273,7 @@ function AdminProductsScreen(props) {
               onBlur={inputBlurHandler}
               onFocus={inputFocusHandler}
               className="admin-products__form-input"
-              type="text"
+              type="number"
               value={editingProduct.price}
               onChange={(e) =>
                 setEditingProduct({ ...editingProduct, price: e.target.value })
@@ -272,7 +301,10 @@ function AdminProductsScreen(props) {
           </div>
 
           {editingProduct.discount && (
-            <div className="admin-products__form-wrapper" id="priceWithDiscount"> 
+            <div
+              className="admin-products__form-wrapper"
+              id="priceWithDiscount"
+            >
               <label
                 className={
                   editingProduct.priceWithDiscount
@@ -286,8 +318,12 @@ function AdminProductsScreen(props) {
                 onBlur={inputBlurHandler}
                 onFocus={inputFocusHandler}
                 className="admin-products__form-input"
-                type="text"
-                value={typeof(editingProduct.priceWithDiscount) == 'object' ? '' : editingProduct.priceWithDiscount}
+                type="number"
+                value={
+                  typeof editingProduct.priceWithDiscount == 'object'
+                    ? ''
+                    : editingProduct.priceWithDiscount
+                }
                 onChange={(e) =>
                   setEditingProduct({
                     ...editingProduct,

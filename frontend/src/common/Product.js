@@ -13,6 +13,7 @@ function Product(props) {
     priceWithDiscount,
     _id,
     quantity,
+    shortInfo
   } = product;
   useEffect(() => {
     const cartProduct = props.cart.cartItems.find(
@@ -33,7 +34,7 @@ function Product(props) {
       <div className="product__content">
         <div className="product__content-top">
           <h3 className="product__content-top__title">{name}</h3>
-          <p className="product__content-top__info">{category}</p>
+          <p className="product__content-top__info">{shortInfo || category}</p>
         </div>
         <p className="product__content-descr">{description}</p>
         <div className="product__content-bottom">

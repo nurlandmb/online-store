@@ -12,8 +12,9 @@ import AdminProductsScreen from './admin/screens/AdminProductsScreen';
 import AdminOrdersScreen from './admin/screens/AdminOrdersScreen';
 import Header from './common/Header';
 import { ToastContainer } from 'react-toastify'
+import { connect } from 'react-redux'
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <Header />
@@ -36,7 +37,7 @@ function App() {
         <Route
           path="/admin/products"
           element={
-            <PrivateRoute user={{ isAdmin: true }} adminRoute>
+            <PrivateRoute user={props.profile.userInfo} adminRoute>
               <AdminProductsScreen />
             </PrivateRoute>
           }
@@ -46,4 +47,10 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    profile: state.profile,
+  }
+}
+
+export default connect(mapStateToProps)(App);

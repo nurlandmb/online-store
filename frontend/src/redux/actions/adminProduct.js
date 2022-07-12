@@ -9,7 +9,8 @@ import {
 } from '../actionTypes';
 
 export const editExistingProduct = (product, user) => async (dispatch) => {
-  if(!product.discount) product.priceWithDiscount = null;
+  if (!product.discount) product.priceWithDiscount = null;
+  
   try {
     dispatch(productEditStart());
     const req = await axios.post(`/api/product/edit/${product._id}`, product, {
@@ -30,15 +31,21 @@ export const productDeleteHandler = (product, user) => async (dispatch) => {
     });
     toast.success('product deleted successfully');
     dispatch(productEditSuccess());
-
   } catch (err) {
     toast.error(err);
     dispatch(productEditError(err));
-
   }
 };
 
 export const createProduct = (product, user) => async (dispatch) => {
+  product = {
+    ...product,
+    name: product.name.trim(),
+    description: product.description.trim(),
+    category: product.category.trim(),
+    price: Number(product.price.toString().trim()),
+    priceWithDiscount: Number(product.priceWithDiscount.toString().trim()),
+  };
   try {
     dispatch(productEditStart());
 

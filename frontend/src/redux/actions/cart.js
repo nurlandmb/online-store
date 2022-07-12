@@ -60,6 +60,7 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
       priceWithDiscount: item.priceWithDiscount,
       image: item.image,
       quantity: item.quantity,
+      shortInfo: item.shortInfo
     };
   });
   const commentProducts = products.reduce(
