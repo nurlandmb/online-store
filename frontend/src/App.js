@@ -11,8 +11,8 @@ import PrivateRoute from './PrivateRoute';
 import AdminProductsScreen from './admin/screens/AdminProductsScreen';
 import AdminOrdersScreen from './admin/screens/AdminOrdersScreen';
 import Header from './common/Header';
-import { ToastContainer } from 'react-toastify'
-import { connect } from 'react-redux'
+import { ToastContainer } from 'react-toastify';
+import { connect } from 'react-redux';
 
 function App(props) {
   return (
@@ -47,10 +47,10 @@ function App(props) {
   );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     profile: state.profile,
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps)(App);
