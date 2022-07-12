@@ -9,7 +9,7 @@ import {
 } from '../actionTypes';
 import { toast } from 'react-toastify'
 
-axios.defaults.baseURL = 'http://localhost:5000';
+// axios.defaults.baseURL = 'http://localhost:5000';
 
 export const loadProducts = () => async (dispatch) => {
   dispatch(productsFetch());
