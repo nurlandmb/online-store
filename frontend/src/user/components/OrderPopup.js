@@ -14,6 +14,7 @@ function OrderPopup(props) {
   const [address, setAddress] = useState(
     props.profile.shippingInfo.address || ''
   );
+  const [coords, setCoords] = useState('');
   const [comment, setComment] = useState('');
   function inputFocusHandler(e) {
     const parent = e.target.closest('.order-popup__form-input');
@@ -52,29 +53,34 @@ function OrderPopup(props) {
     e.preventDefault();
     const validate = shipment ? validateForms() : false;
     if (validate) return;
-    props.cartSend(props.cart, { name, phone, address, shipment, comment });
+    props.cartSend(props.cart, {
+      name,
+      phone,
+      address,
+      shipment,
+      comment,
+      coords,
+    });
   };
   const getLocation = (e) => {
-    let options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0,
-    };
     const geo = navigator.geolocation;
     geo.getCurrentPosition(
       (pos) => {
-        console.log(pos);
-        setName(pos.coords.latitude);
-        setAddress(pos.coords.longitude);
-        alert(pos.coords.accuracy);
-        if (pos.coords.accuracy > 50)
+        if (pos.coords.accuracy > 30) {
           alert(
-            'Не получилось получить геолокацию. Пожалуйста, введите их вручную'
+            'Не получилось получить точную геолокацию. Пожалуйста, попробуйте снова или введите их вручную'
           );
+          return;
+        }
+        setCoords({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        });
+        setAddress('Текущий адрес');
       },
       (err) =>
         alert(
-          'Что-то пошло не так. Пожалуйста, проверьте включен ли GPS и попробуйте снова'
+          'Что-то пошло не так. Пожалуйста, проверьте включен ли у вас GPS и попробуйте снова'
         ),
       { enableHighAccuracy: true }
     );

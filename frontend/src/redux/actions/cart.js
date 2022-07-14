@@ -13,33 +13,39 @@ export const countQuantity = (cart) =>
 export const countTotal = (cart) =>
   cart.reduce(
     (acc, product) =>
-    (acc += product.priceWithDiscount
-      ? product.priceWithDiscount * product.quantity
-      : product.price * product.quantity),
+      (acc += product.priceWithDiscount
+        ? product.priceWithDiscount * product.quantity
+        : product.price * product.quantity),
     0
   );
 
-export const getPopularItems = (allProducts, cartProducts) => async dispatch => {
-  const cartProductsId = cartProducts.map(product => product._id)
-  let popularItems = []
-  if(allProducts.length){
-    popularItems = allProducts.filter(item => item.isPopular).filter(item => !cartProductsId.includes(item._id))
-    dispatch(cartPopularItemsEdit(popularItems))
-  } else {
-    try {
-      const { data } = await axios.get('/api/product/popular');
-      popularItems = data.filter(item => !cartProductsId.includes(item._id));
-      dispatch(cartPopularItemsEdit(popularItems))
-    } catch (err) {
-      console.log(err)
+export const getPopularItems =
+  (allProducts, cartProducts) => async (dispatch) => {
+    const cartProductsId = cartProducts.map((product) => product._id);
+    let popularItems = [];
+    if (allProducts.length) {
+      popularItems = allProducts
+        .filter((item) => item.isPopular)
+        .filter((item) => !cartProductsId.includes(item._id));
+      dispatch(cartPopularItemsEdit(popularItems));
+    } else {
+      try {
+        const { data } = await axios.get('/api/product/popular');
+        popularItems = data.filter(
+          (item) => !cartProductsId.includes(item._id)
+        );
+        dispatch(cartPopularItemsEdit(popularItems));
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
-}
+  };
 export const cartPopularItemsEdit = (products) => {
   return {
-    type: CART_POPULAR_ITEMS_EDIT, payload: products
-  }
-}
+    type: CART_POPULAR_ITEMS_EDIT,
+    payload: products,
+  };
+};
 
 export const cartHandler = (product, type, cart) => (dispatch) => {
   const cartProduct = cart.find((item) => item._id === product._id);
@@ -83,11 +89,12 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
       priceWithDiscount: item.priceWithDiscount,
       image: item.image,
       quantity: item.quantity,
-      shortInfo: item.shortInfo
+      shortInfo: item.shortInfo,
     };
   });
   const commentProducts = products.reduce(
-    (acc, item, i) => (acc += ` ${i + 1}. ${item.name} - ${item.quantity}; <br>`),
+    (acc, item, i) =>
+      (acc += ` ${i + 1}. ${item.name} - ${item.quantity}; <br>`),
     'Выбранные товары: <br>'
   );
   const commentUser = `Коментарий от покупателя: ${shipment.comment} <br>`;
@@ -95,12 +102,17 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
   const comment = commentProducts + commentUser + commentTotal;
   console.log(comment);
   try {
-    dispatch(cartSendStart())
-    const res = await axios.post(`${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${shipment.address}&FIELDS[COMMENTS]=${comment}`);
-    localStorage.removeItem('nurlan-online-store-cart')
+    dispatch(cartSendStart());
+    const userLocation = shipment.coords.latitude
+      ? `https://2gis.kz/geo/${shipment.coords.longitude},${shipment.coords.latitude}`
+      : shipment.address;
+    const res = await axios.post(
+      `${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${userLocation}&FIELDS[COMMENTS]=${comment}`
+    );
+    localStorage.removeItem('nurlan-online-store-cart');
     dispatch(cartSendSuccess(res.status))
   } catch (err) {
-    dispatch(cartSendError(err))
+    dispatch(cartSendError(err));
     console.log(err);
   }
 };
@@ -112,7 +124,8 @@ export const cartSendStart = () => {
 };
 export const cartSendSuccess = (status) => {
   return {
-    type: CART_SEND_SUCCESS, payload: status
+    type: CART_SEND_SUCCESS,
+    payload: status,
   };
 };
 export const cartSendError = (err) => {
