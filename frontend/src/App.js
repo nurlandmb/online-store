@@ -18,7 +18,7 @@ import Footer from './common/Footer'
 function App(props) {
   return (
     <div className="App">
-      <Header />
+      <Header userInfo={props.profile.userInfo} />
       <ToastContainer limit={1} />
       <main className="main">
         <Routes>

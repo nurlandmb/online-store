@@ -90,6 +90,7 @@
     }
     &__search {
       display: none;
+      min-width: 240px;
       &.mobile {
         display: flex;
         margin: 10px 0;

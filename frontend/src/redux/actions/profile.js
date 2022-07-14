@@ -2,6 +2,7 @@ import {
   USER_SIGNIN,
   USER_SIGNIN_SUCCESS,
   USER_SIGNIN_ERROR,
+  USER_SIGNOUT
 } from '../actionTypes';
 import axios from 'axios'
 
@@ -17,6 +18,13 @@ export const signInHandler = (user) => async (dispatch) => {
     
   }
 
+}
+
+export const signOut = () => dispatch => {
+  localStorage.removeItem('nurlan-store-userInfo')
+  return {
+    type: USER_SIGNOUT
+  }
 }
 
 export const userSignIn = () => {

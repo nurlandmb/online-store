@@ -4,20 +4,22 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Popup from './Popup';
 import Search from './Search';
+import { signOut } from '../redux/actions/profile';
 function Header(props) {
   const navigate = useNavigate();
   const [popupActive, setPopupActive] = useState(false);
   const location = useLocation();
   const [navActive, setNavActive] = useState(false);
   const [burgerActive, setBurgerActive] = useState(false);
-  
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
-      behavior: "instant"
-  });
-  }, [location])
-  
+      behavior: 'instant',
+    });
+    console.log(props);
+  }, [location]);
+
   const cartClickHandler = () => {
     if (props.cart.quantity) {
       navigate('/cart');
@@ -77,7 +79,7 @@ function Header(props) {
                 </Link>
               </div>
               <div className="header__content">
-                <Search />
+                <Search isAdmin={props.userInfo.isAdmin}/>
                 <a className="header__contacts" href="tel:+77762115300">
                   <div className="header__contacts-svg">
                     <svg
@@ -210,35 +212,37 @@ function Header(props) {
                   </Link>
                 </nav>
               </div> */}
-              <Link to="/signin" className="header__signin">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="11.5788"
-                    cy="7.27803"
-                    r="4.77803"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M4.00002 18.7014C3.99873 18.3655 4.07385 18.0338 4.2197 17.7312C4.67736 16.8158 5.96798 16.3307 7.03892 16.111C7.81128 15.9462 8.59431 15.8361 9.38217 15.7815C10.8408 15.6534 12.3079 15.6534 13.7666 15.7815C14.5544 15.8367 15.3374 15.9468 16.1099 16.111C17.1808 16.3307 18.4714 16.7701 18.9291 17.7312C19.2224 18.348 19.2224 19.064 18.9291 19.6808C18.4714 20.6419 17.1808 21.0813 16.1099 21.2918C15.3384 21.4635 14.5551 21.5767 13.7666 21.6305C12.5794 21.7311 11.3866 21.7495 10.1968 21.6854C9.92221 21.6854 9.65677 21.6854 9.38217 21.6305C8.59663 21.5773 7.81632 21.4641 7.04807 21.2918C5.96798 21.0813 4.68652 20.6419 4.2197 19.6808C4.0746 19.3747 3.99955 19.0402 4.00002 18.7014Z"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span>Войти</span>
-              </Link>
+              {!!props.userInfo.isAdmin && (
+                <button className="header__signin" onClick={() => props.signOut()}>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="11.5788"
+                      cy="7.27803"
+                      r="4.77803"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M4.00002 18.7014C3.99873 18.3655 4.07385 18.0338 4.2197 17.7312C4.67736 16.8158 5.96798 16.3307 7.03892 16.111C7.81128 15.9462 8.59431 15.8361 9.38217 15.7815C10.8408 15.6534 12.3079 15.6534 13.7666 15.7815C14.5544 15.8367 15.3374 15.9468 16.1099 16.111C17.1808 16.3307 18.4714 16.7701 18.9291 17.7312C19.2224 18.348 19.2224 19.064 18.9291 19.6808C18.4714 20.6419 17.1808 21.0813 16.1099 21.2918C15.3384 21.4635 14.5551 21.5767 13.7666 21.6305C12.5794 21.7311 11.3866 21.7495 10.1968 21.6854C9.92221 21.6854 9.65677 21.6854 9.38217 21.6305C8.59663 21.5773 7.81632 21.4641 7.04807 21.2918C5.96798 21.0813 4.68652 20.6419 4.2197 19.6808C4.0746 19.3747 3.99955 19.0402 4.00002 18.7014Z"
+                      stroke="white"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Выйти</span>
+                </button>
+              )}
               <button className="header__cart" onClick={cartClickHandler}>
                 <span className="header__cart-logo">
                   <svg
@@ -457,10 +461,17 @@ function Header(props) {
               </Link>
             </nav> */}
           </div>
-          <Search addClass="mobile" />
+          <Search addClass="mobile" isAdmin={props.userInfo.isAdmin} />
         </div>
       </header>
-      <Link className={props.cart.quantity && location.pathname === '/' ? "active cart-button" : "cart-button"} to="/cart">
+      <Link
+        className={
+          props.cart.quantity && location.pathname === '/'
+            ? 'active cart-button'
+            : 'cart-button'
+        }
+        to="/cart"
+      >
         <svg
           className="cart-button__svg"
           viewBox="0 0 24 24"
@@ -500,9 +511,7 @@ function Header(props) {
             strokeLinejoin="round"
           />
         </svg>
-        <p className="cart-button__text">
-          {props.cart.quantity}
-        </p>
+        <p className="cart-button__text">{props.cart.quantity}</p>
       </Link>
     </>
   );
@@ -514,4 +523,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(signOut())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

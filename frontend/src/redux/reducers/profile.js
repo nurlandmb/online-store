@@ -2,6 +2,7 @@ import {
   USER_SIGNIN,
   USER_SIGNIN_SUCCESS,
   USER_SIGNIN_ERROR,
+  USER_SIGNOUT
 } from '../actionTypes';
 
 const inititalState = {
@@ -26,6 +27,8 @@ const foodsReducer = (state = inititalState, action) => {
       return { ...state, userInfo: action.payload, isLoading: false, isLoggedIn: true }
     case USER_SIGNIN_ERROR:
       return { ...state, error: action.payload, isLoading: false }
+    case USER_SIGNOUT:
+      return { ...state, userInfo: {} }
     default:
       return state;
   }

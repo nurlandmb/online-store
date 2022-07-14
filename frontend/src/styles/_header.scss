@@ -24,6 +24,7 @@
     flex: 1;
     display: flex;
     position: relative;
+    min-width: 400px;
     &.mobile {
       display: none;
     }
@@ -34,6 +35,8 @@
     position: relative;
   }
   &__search-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     position: absolute;
     top: 115%;
     left: 0;
@@ -43,6 +46,9 @@
     max-height: 230px;
     border-radius: 10px;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     &.mobile {
       display: none;
     }
@@ -57,7 +63,7 @@
       border-bottom: 1px solid rgba(#72a479, 0.75);
       color: #72a479;
 
-      &.first { 
+      &.first {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
       }
@@ -88,8 +94,9 @@
       width: 30px;
       height: 30px;
       stroke: #72a479;
-      &.clicked{
-        opacity: .75;
+      margin-left: 10px;
+      &.clicked {
+        opacity: 0.75;
         pointer-events: none;
       }
     }
@@ -121,6 +128,7 @@
     align-items: center;
     text-decoration: none;
     transition: all 0.3s;
+    white-space: nowrap;
     &:hover {
       opacity: 0.7;
     }
@@ -247,27 +255,27 @@
     }
   }
 }
-.cart-button{
+.cart-button {
   bottom: 15px;
   right: 15px;
   position: fixed;
   border-radius: 6px;
-  background: rgba(#72a479, .75);
+  background: rgba(#72a479, 0.75);
   padding: 10px 20px;
   display: flex;
   align-items: flex-end;
-  transition: all .3s;
+  transition: all 0.3s;
   transform: translateY(100px);
-  &.active{
+  &.active {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
   }
-  &__svg{
+  &__svg {
     width: 42px;
     height: 42px;
   }
-  &__text{
+  &__text {
     text-align: center;
     margin-left: 10px;
     font-size: 32px;

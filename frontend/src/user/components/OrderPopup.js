@@ -66,6 +66,7 @@ function OrderPopup(props) {
     const geo = navigator.geolocation;
     geo.getCurrentPosition(
       (pos) => {
+        console.log(pos.coords.accuracy);
         if (pos.coords.accuracy > 30) {
           alert(
             'Не получилось получить точную геолокацию. Пожалуйста, попробуйте снова или введите их вручную'

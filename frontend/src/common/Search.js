@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { cartHandler } from '../redux/actions/cart';
 import { searchProduct } from '../redux/actions/search';
 import { ReactComponent as FoodSvg } from '../img/food.svg';
-
+import { productEdit } from '../redux/actions/adminProduct';
 function Search(props) {
   const [query, setQuery] = useState('');
   const formSubmitHandler = (e) => {
     e.preventDefault();
   };
+  const productEditHandler = product => {
+    setQuery('')
+    props.productEdit(product, 'edit')
+  }
   useEffect(() => {
     setQuery('');
   }, [window.location.href]);
@@ -98,7 +102,7 @@ function Search(props) {
               </div>
               <div className="header__search-list__item-wrapper">
                 {props.isAdmin && (
-                  <button className="header__search-list__item-button">
+                  <button className="header__search-list__item-button" onClick={() => productEditHandler(product)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -154,6 +158,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(searchProduct(products, cartProducts, query)),
     cartHandler: (product, type, cart) =>
       dispatch(cartHandler(product, type, cart)),
+    productEdit: (product, type) => dispatch(productEdit(product, type)),
   };
 };
 
