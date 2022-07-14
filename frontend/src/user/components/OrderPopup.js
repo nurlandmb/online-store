@@ -58,17 +58,27 @@ function OrderPopup(props) {
     let options = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 0
+      maximumAge: 0,
     };
     const geo = navigator.geolocation;
-    geo.getCurrentPosition((pos) => {
-      console.log(pos);
-      setName(pos.coords.latitude)
-      setAddress(pos.coords.longitude)
-      alert(pos.coords.accuracy)
-      if (pos.coords.accuracy > 50) alert('Не получилось получить геолокацию. Пожалуйста, введите их вручную')
-    }, (err) => alert('Что-то пошло не так. Пожалуйста, проверьте включен ли GPS и попробуйте снова'));
-  };  
+    geo.getCurrentPosition(
+      (pos) => {
+        console.log(pos);
+        setName(pos.coords.latitude);
+        setAddress(pos.coords.longitude);
+        alert(pos.coords.accuracy);
+        if (pos.coords.accuracy > 50)
+          alert(
+            'Не получилось получить геолокацию. Пожалуйста, введите их вручную'
+          );
+      },
+      (err) =>
+        alert(
+          'Что-то пошло не так. Пожалуйста, проверьте включен ли GPS и попробуйте снова'
+        ),
+      { enableHighAccuracy: true }
+    );
+  };
   useEffect(() => {
     if (props.cart.sendStatus) {
       setInputDisabled(true);
