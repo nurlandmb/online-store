@@ -65,6 +65,7 @@ function OrderPopup(props) {
       console.log(pos);
       setName(pos.coords.latitude)
       setAddress(pos.coords.longitude)
+      alert(pos.coords.accuracy)
     }, (err) => alert('wrong'));
   };  
   useEffect(() => {
