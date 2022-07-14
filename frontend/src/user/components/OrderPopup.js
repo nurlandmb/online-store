@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Popup from '../../common/Popup';
 import { connect } from 'react-redux';
 import Loader from '../../common/Loader';
 import { cartSend } from '../../redux/actions/cart';
 import InputMask from 'react-input-mask';
+import { Link } from 'react-router-dom';
 
 function OrderPopup(props) {
   const [shipment, setShipment] = useState(true);
   const [name, setName] = useState(props.profile.shippingInfo.name || '');
   const [phone, setPhone] = useState(props.profile.shippingInfo.phone || '');
+  const [inputDisabled, setInputDisabled] = useState(false);
   const [address, setAddress] = useState(
     props.profile.shippingInfo.address || ''
   );
@@ -52,6 +54,25 @@ function OrderPopup(props) {
     if (validate) return;
     props.cartSend(props.cart, { name, phone, address, shipment, comment });
   };
+  const getLocation = (e) => {
+    let options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    const geo = navigator.geolocation;
+    geo.getCurrentPosition((pos) => {
+      console.log(pos);
+      setName(pos.coords.latitude)
+      setAddress(pos.coords.longitude)
+    }, (err) => alert('wrong'));
+  };  
+  useEffect(() => {
+    if (props.cart.sendStatus) {
+      setInputDisabled(true);
+    }
+  }, [props.cart.sendStatus]);
+
   return (
     <Popup
       theme="dark"
@@ -60,8 +81,13 @@ function OrderPopup(props) {
       closePopup={props.closePopup}
     >
       {props.cart.isSending && <Loader fixed addClass="dark" />}
+
       <h3 className="order-popup__title">Оформление заказа</h3>
-      <form className="order-popup__form">
+      <form
+        className={
+          inputDisabled ? 'order-popup__form disabled' : 'order-popup__form'
+        }
+      >
         <div className="order-popup__form-wrapper">
           <div className="order-popup__form-radio">
             <input
@@ -69,6 +95,7 @@ function OrderPopup(props) {
               className="order-popup__form-radio__input"
               type="radio"
               name="shipment"
+              disabled={inputDisabled}
               onChange={() => setShipment(true)}
             />
 
@@ -90,6 +117,7 @@ function OrderPopup(props) {
               type="radio"
               name="shipment"
               onChange={() => setShipment(false)}
+              disabled={inputDisabled}
             />
             <label
               className={
@@ -121,6 +149,7 @@ function OrderPopup(props) {
                 onBlur={(e) => inputBlurHandler(e)}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                disabled={inputDisabled}
               />
             </div>
             <div className="active order-popup__form-input" id="phone">
@@ -141,6 +170,7 @@ function OrderPopup(props) {
                 onBlur={(e) => inputBlurHandler(e)}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                disabled={inputDisabled}
               />
             </div>
             <div className="active order-popup__form-input" id="address">
@@ -154,12 +184,36 @@ function OrderPopup(props) {
                 Ваш адрес
               </label>
               <input
-                className="order-popup__form-input__item"
+                className="order-popup__form-input__item address"
                 onFocus={(e) => inputFocusHandler(e)}
                 onBlur={(e) => inputBlurHandler(e)}
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+                disabled={inputDisabled}
               />
+              <button
+                className="order-popup__form-input__button"
+                type="button"
+                onClick={getLocation}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </button>
             </div>
             <div className="order-popup__form-input">
               <textarea
@@ -168,6 +222,7 @@ function OrderPopup(props) {
                 onBlur={(e) => inputBlurHandler(e)}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
+                disabled={inputDisabled}
               />
               <label
                 className={
@@ -203,11 +258,22 @@ function OrderPopup(props) {
         )}
         <div className="order-popup__form-bottom">
           <p className="order-popup__form-price">
-            Общая цена: <span>{props.cart.total} ₸</span>
+            {!props.cart.sendStatus ? (
+              <>
+                Общая цена: <span>{props.cart.total} ₸</span>
+              </>
+            ) : props.cart.sendStatus === 200 ? (
+              <span className="success">
+                Заявка успешно оформлена! Ожидайте звонок от менеджера
+              </span>
+            ) : (
+              'Что-то пошло не так. Пожалуйса, перезагрузите страницу и попробуйте снова'
+            )}
           </p>
           <button
             className="order-popup__form-submit"
             onClick={orderSubmitHandler}
+            disabled={inputDisabled}
           >
             Оформить
           </button>

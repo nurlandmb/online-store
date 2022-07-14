@@ -1,5 +1,8 @@
 .categories {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  background: rgba(#504b4a, .75);
   &__list {
     display: flex;
     align-items: flex-end;
@@ -10,7 +13,7 @@
     font-size: 18px;
     line-height: 1.11;
     font-weight: 400;
-    padding: 15px 0 29px;
+    padding: 29px 0 29px;
     position: relative;
     text-decoration: none;
     transition: all .3s;

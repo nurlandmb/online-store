@@ -3,9 +3,10 @@ import React, { useEffect } from 'react';
 function Popup(props) {
   useEffect(() => {
     if (props.active) {
-      document.body.classList.add('no-scroll');
+      console.log(document);
+      document.body.parentElement.classList.add('no-scroll');
     } else {
-      document.body.classList.remove('no-scroll');
+      document.body.parentElement.classList.remove('no-scroll');
     }
   }, [props.active]);
 

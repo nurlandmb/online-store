@@ -10,7 +10,10 @@ productRouter.get('/', async (req, res) => {
   const products = await Product.find();
   res.send(products);
 });
-
+productRouter.get('/popular',expressAsyncHandler(async (req, res) => {
+  const popularProducts = await Product.find({ isPopular: true });
+  res.send(popularProducts)
+}));
 productRouter.get(
   '/categories',
   expressAsyncHandler(async (req, res) => {

@@ -1,0 +1,28 @@
+.footer{
+  margin-top: 25px;
+  padding: 50px 0;
+  background: linear-gradient(90deg, #494544 0%, #504b4a 100%);
+  &__title{
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+  &__social{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+  }
+  &__social-item{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    transition: all .3s;
+    &:hover{
+      opacity: .75;
+    }
+    &__text{
+      font-size: 18px;
+      margin-left: 10px;
+      font-weight: 500;
+    }
+  }
+}

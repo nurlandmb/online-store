@@ -13,36 +13,40 @@ import AdminOrdersScreen from './admin/screens/AdminOrdersScreen';
 import Header from './common/Header';
 import { ToastContainer } from 'react-toastify';
 import { connect } from 'react-redux';
+import Footer from './common/Footer'
 
 function App(props) {
   return (
     <div className="App">
       <Header />
       <ToastContainer limit={1} />
-      <Routes>
-        <Route path="/" element={<HomeScreen />} />
-        {/* <Route path="/products" element={<ProductsScreen />} /> */}
-        {/* <Route path="/order" element={<OrderScreen />} /> */}
-        <Route path="/cart" element={<CartScreen />} />
-        <Route path="/admin/signin" element={<SignInScreen />} />
-        {/* <Route path="/signup" element={<SignUpScreen />} /> */}
-        {/* <Route
-          path="/admin/orders"
-          element={
-            <PrivateRoute user={{ isAdmin: true }} adminRoute>
-              <AdminOrdersScreen />
-            </PrivateRoute>
-          }
-        /> */}
-        <Route
-          path="/admin/products"
-          element={
-            <PrivateRoute user={props.profile.userInfo} adminRoute>
-              <AdminProductsScreen />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <main className="main">
+        <Routes>
+          <Route path="/" element={<HomeScreen />} />
+          {/* <Route path="/products" element={<ProductsScreen />} /> */}
+          {/* <Route path="/order" element={<OrderScreen />} /> */}
+          <Route path="/cart" element={<CartScreen />} />
+          <Route path="/admin/signin" element={<SignInScreen />} />
+          {/* <Route path="/signup" element={<SignUpScreen />} /> */}
+          {/* <Route
+            path="/admin/orders"
+            element={
+              <PrivateRoute user={{ isAdmin: true }} adminRoute>
+                <AdminOrdersScreen />
+              </PrivateRoute>
+            }
+          /> */}
+          <Route
+            path="/admin/products"
+            element={
+              <PrivateRoute user={props.profile.userInfo} adminRoute>
+                <AdminProductsScreen />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </main>
+      <Footer />
     </div>
   );
 }

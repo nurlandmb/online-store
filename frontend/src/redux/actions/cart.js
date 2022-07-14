@@ -3,6 +3,7 @@ import {
   CART_SEND_START,
   CART_SEND_SUCCESS,
   CART_SEND_ERROR,
+  CART_POPULAR_ITEMS_EDIT,
 } from '../actionTypes';
 import axios from 'axios';
 
@@ -12,11 +13,33 @@ export const countQuantity = (cart) =>
 export const countTotal = (cart) =>
   cart.reduce(
     (acc, product) =>
-      (acc += product.priceWithDiscount
-        ? product.priceWithDiscount * product.quantity
-        : product.price * product.quantity),
+    (acc += product.priceWithDiscount
+      ? product.priceWithDiscount * product.quantity
+      : product.price * product.quantity),
     0
   );
+
+export const getPopularItems = (allProducts, cartProducts) => async dispatch => {
+  const cartProductsId = cartProducts.map(product => product._id)
+  let popularItems = []
+  if(allProducts.length){
+    popularItems = allProducts.filter(item => item.isPopular).filter(item => !cartProductsId.includes(item._id))
+    dispatch(cartPopularItemsEdit(popularItems))
+  } else {
+    try {
+      const { data } = await axios.get('/api/product/popular');
+      popularItems = data.filter(item => !cartProductsId.includes(item._id));
+      dispatch(cartPopularItemsEdit(popularItems))
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+export const cartPopularItemsEdit = (products) => {
+  return {
+    type: CART_POPULAR_ITEMS_EDIT, payload: products
+  }
+}
 
 export const cartHandler = (product, type, cart) => (dispatch) => {
   const cartProduct = cart.find((item) => item._id === product._id);
@@ -71,8 +94,15 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
   const commentTotal = `Полная цена: ${cart.total} <br>`;
   const comment = commentProducts + commentUser + commentTotal;
   console.log(comment);
-  const res = await axios.post(`${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${shipment.address}&FIELDS[COMMENTS]=${comment}`);
-  console.log(res);
+  try {
+    dispatch(cartSendStart())
+    const res = await axios.post(`${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${shipment.address}&FIELDS[COMMENTS]=${comment}`);
+    localStorage.removeItem('nurlan-online-store-cart')
+    dispatch(cartSendSuccess(res.status))
+  } catch (err) {
+    dispatch(cartSendError(err))
+    console.log(err);
+  }
 };
 
 export const cartSendStart = () => {
@@ -80,9 +110,9 @@ export const cartSendStart = () => {
     type: CART_SEND_START,
   };
 };
-export const cartSendSuccess = () => {
+export const cartSendSuccess = (status) => {
   return {
-    type: CART_SEND_SUCCESS,
+    type: CART_SEND_SUCCESS, payload: status
   };
 };
 export const cartSendError = (err) => {

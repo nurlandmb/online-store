@@ -18,6 +18,11 @@ h1 {
 html {
   overflow-x: hidden;
   scroll-behavior: smooth;
+
+  &.no-scroll {
+    height: auto;
+    overflow-y: hidden;
+  }
 }
 body {
   font-family: 'Gilroy', sans-serif;
@@ -25,9 +30,6 @@ body {
   color: var(--text-main);
   position: relative;
   min-width: 320px;
-  &.no-scroll {
-    overflow: hidden;
-  }
 }
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -43,6 +45,9 @@ input[type='number'] {
 .App {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+.main {
   min-height: 100vh;
 }
 .container {

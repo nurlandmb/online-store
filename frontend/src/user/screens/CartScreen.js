@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Product from '../../common/Product';
 import food from '../../img/food.jpg';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { cartHandler } from '../../redux/actions/cart';
+import { cartHandler, getPopularItems } from '../../redux/actions/cart';
 import OrderPopup from '../components/OrderPopup';
 
 function CartScreen(props) {
   const [popupActive, setPopupActive] = useState(false);
+
+  useEffect(() => {
+    props.getPopularItems(props.products.products, props.cart.cartItems);
+  }, []);
 
   return props.cart.quantity ? (
     <>
@@ -189,19 +193,29 @@ function CartScreen(props) {
           </ul>
         </div>
       </section>
-      <section className="cart-add">
-        <div className="container">
-          <h2 className="cart-add__title">ДОБАВИТЬ К ЗАКАЗУ</h2>
-          <ul className="cart-add__list">
-            {/* <Product addClass="cart-add__list-item" />
-            <Product addClass="cart-add__list-item" />
-            <Product addClass="cart-add__list-item" />
-            <Product addClass="cart-add__list-item" /> */}
-          </ul>
-        </div>
-      </section>
+      {!!props.cart.popularItems && (
+        <section className="cart-add">
+          <div className="container">
+            <h2 className="cart-add__title">ДОБАВИТЬ К ЗАКАЗУ</h2>
+            <ul className="cart-add__list">
+              {props.cart.popularItems.map((product) => (
+                <Product
+                  addClass="cart-add__list-item"
+                  key={product._id}
+                  product={product}
+                />
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
     </>
   ) : (
+    <>
+    <OrderPopup
+        popupActive={popupActive}
+        closePopup={() => setPopupActive(false)}
+      />
     <section className="cart-empty">
       <div className="container">
         <div className="cart-empty__wrapper">
@@ -223,12 +237,14 @@ function CartScreen(props) {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
     cart: state.cart,
+    products: state.products,
   };
 };
 
@@ -236,6 +252,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     cartHandler: (product, type, cart) =>
       dispatch(cartHandler(product, type, cart)),
+    getPopularItems: (allProducts, cartProducts) => dispatch(getPopularItems(allProducts, cartProducts)),
   };
 };
 

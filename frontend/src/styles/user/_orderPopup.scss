@@ -3,9 +3,13 @@
   min-height: 682px;
   display: flex;
   flex-direction: column;
+  // position: relative;
   &__title {
     margin-bottom: 20px;
     font-size: 28px;
+  }
+  &__success{
+    position: absolute;
   }
   &__form {
     flex-grow: 1;
@@ -13,6 +17,8 @@
     flex-direction: column;
     height: 100%;
     max-width: 377px;
+    position: relative;
+    
   }
   &__form-inputs {
     flex-grow: 1;
@@ -49,6 +55,10 @@
     &:last-child label {
       border-radius: 0 10px 10px 0px;
     }
+    &:disabled{
+      pointer-events: none;
+      opacity: .5;
+    }
     &__label {
       border: 1px solid #72a479;
       font-weight: 700;
@@ -75,6 +85,7 @@
         border-color: #cc0033;
       }
     }
+    
     &__label {
       position: absolute;
       top: 50%;
@@ -100,6 +111,9 @@
       padding: 10px 20px;
       font-weight: 500;
       color: var(--text-main);
+      &.address{
+        padding: 10px 35px 10px 20px;
+      }
       &.textarea {
         resize: none;
         font-size: 18px;
@@ -113,9 +127,24 @@
       &.textarea + .order-popup__form-input__label.active {
         top: 0;
       }
+      &:disabled{
+        opacity: .5;
+        pointer-events: none;
+      }
       &::placeholder {
         font-weight: 500;
         color: var(--text-main);
+      }
+    }
+    &__button{
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      svg{
+        width: 24px;
+        height: 24px;
+        stroke: var(--text-main);
       }
     }
   }
@@ -124,6 +153,10 @@
     font-weight: 500;
     margin-bottom: 10px;
     text-align: center;
+    span.success{
+      color: #72a479;
+      font-size: 16px;
+    }
     span {
       font-weight: 700;
       font-size: 20px;
@@ -141,6 +174,10 @@
     &:hover {
       background: transparent;
       color: #72a479;
+    }
+    &:disabled{
+      opacity: .5;
+      pointer-events: none;
     }
   }
 }

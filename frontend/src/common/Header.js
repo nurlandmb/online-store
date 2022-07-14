@@ -10,10 +10,14 @@ function Header(props) {
   const location = useLocation();
   const [navActive, setNavActive] = useState(false);
   const [burgerActive, setBurgerActive] = useState(false);
+  
   useEffect(() => {
-    setBurgerActive(false);
-    console.log(props);
-  }, [location]);
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+  });
+  }, [location])
+  
   const cartClickHandler = () => {
     if (props.cart.quantity) {
       navigate('/cart');
@@ -55,7 +59,7 @@ function Header(props) {
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <button
+            {/* <button
               className={
                 burgerActive ? 'active header__burger' : 'header__burger'
               }
@@ -65,7 +69,7 @@ function Header(props) {
               <span className="header__burger-line"></span>
               <span className="header__burger-line"></span>
               <p className="header__burger-text">Меню</p>
-            </button>
+            </button> */}
             <div className="header__left">
               <div className="header__logo">
                 <Link to="/">
@@ -292,7 +296,7 @@ function Header(props) {
               burgerActive ? 'active header__mobile' : 'header__mobile'
             }
           >
-            <nav className="header__mobile-nav">
+            {/* <nav className="header__mobile-nav">
               <Link className="header__mobile-nav__item" to="/signin">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -328,7 +332,7 @@ function Header(props) {
                 </svg>
                 <span>Создать аккаунт</span>
               </Link>
-            </nav>
+            </nav> */}
             {/* <nav className="header__mobile-nav">
               <Link className="header__mobile-nav__item" to="/signin">
                 <svg
@@ -456,6 +460,50 @@ function Header(props) {
           <Search addClass="mobile" />
         </div>
       </header>
+      <Link className={props.cart.quantity && location.pathname === '/' ? "active cart-button" : "cart-button"} to="/cart">
+        <svg
+          className="cart-button__svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M7.42226 19.8203C7.84426 19.8203 8.18726 20.1633 8.18726 20.5853C8.18726 21.0073 7.84426 21.3493 7.42226 21.3493C7.00026 21.3493 6.65826 21.0073 6.65826 20.5853C6.65826 20.1633 7.00026 19.8203 7.42226 19.8203Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M18.6747 19.8203C19.0967 19.8203 19.4397 20.1633 19.4397 20.5853C19.4397 21.0073 19.0967 21.3493 18.6747 21.3493C18.2527 21.3493 17.9097 21.0073 17.9097 20.5853C17.9097 20.1633 18.2527 19.8203 18.6747 19.8203Z"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M2.74988 3.25L4.82988 3.61L5.79288 15.083C5.87088 16.018 6.65188 16.736 7.58988 16.736H18.5019C19.3979 16.736 20.1579 16.078 20.2869 15.19L21.2359 8.632C21.3529 7.823 20.7259 7.099 19.9089 7.099H5.16388"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M14.1254 10.795H16.8984"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <p className="cart-button__text">
+          {props.cart.quantity}
+        </p>
+      </Link>
     </>
   );
 }

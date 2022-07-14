@@ -17,6 +17,7 @@ const initialState = {
     price: '',
     priceWithDiscount: null,
   },
+  popularProducts: [],
   popupActive: false,
   error: false,
   isLoading: false,
