@@ -66,7 +66,8 @@ function OrderPopup(props) {
       setName(pos.coords.latitude)
       setAddress(pos.coords.longitude)
       alert(pos.coords.accuracy)
-    }, (err) => alert('wrong'));
+      if (pos.coords.accuracy > 50) alert('Не получилось получить геолокацию. Пожалуйста, введите их вручную')
+    }, (err) => alert('Что-то пошло не так. Пожалуйста, проверьте включен ли GPS и попробуйте снова'));
   };  
   useEffect(() => {
     if (props.cart.sendStatus) {
