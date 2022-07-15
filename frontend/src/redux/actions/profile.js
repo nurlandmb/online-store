@@ -21,7 +21,8 @@ export const signInHandler = (user) => async (dispatch) => {
 }
 
 export const signOut = () => dispatch => {
-  localStorage.removeItem('nurlan-store-userInfo')
+  localStorage.removeItem('nurlan-store-userInfo');
+  console.log(window);
   return {
     type: USER_SIGNOUT
   }

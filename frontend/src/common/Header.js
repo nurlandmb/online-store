@@ -17,7 +17,6 @@ function Header(props) {
       top: 0,
       behavior: 'instant',
     });
-    console.log(props);
   }, [location]);
 
   const cartClickHandler = () => {
@@ -27,6 +26,10 @@ function Header(props) {
       setPopupActive(true);
     }
   };
+  const signOutHandler = () => {
+    props.signOut()
+    navigate('/');
+  }
   return (
     <>
       <Popup
@@ -213,7 +216,7 @@ function Header(props) {
                 </nav>
               </div> */}
               {!!props.userInfo.isAdmin && (
-                <button className="header__signin" onClick={() => props.signOut()}>
+                <button className="header__signin" onClick={signOutHandler}>
                   <svg
                     width="24"
                     height="24"

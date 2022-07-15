@@ -1,55 +1,89 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Product from '../../common/Product';
 import banner from '../../img/banner.jpg';
-import Popup from '../../common/Popup';
 import { loadProducts, loadCategories } from '../../redux/actions/products';
 import { connect } from 'react-redux';
 import Loader from '../../common/Loader';
 
 function HomeScreen(props) {
-  
+  const categories = useRef(null);
+  const [categoriesScroll, setCategoriesCroll] = useState('');
+  const [sectionFixed, setSectionFixed] = useState(false);
+
   useEffect(() => {
-    console.log(props);
     props.loadCategories();
     props.loadProducts();
+    setCategoriesCroll(categories.current.offsetTop);
   }, []);
 
+  function logit() {
+    if (window.pageYOffset > categoriesScroll) {
+      setSectionFixed(true);
+    } else {
+      setSectionFixed(false);
+    }
+  }
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener('scroll', logit);
+    }
+    watchScroll();
+    return () => {
+      window.removeEventListener('scroll', logit);
+    };
+  });
+  // useEffect(() => {
+  //   console.log('abc');
+  //   if(window.scrollY === document.querySelector('.categories').scrollHeight){
+  //     console.log('action');
+  //   }
+  // }, [window.pageYOffset])
+  const anchorHandler = (scrollElem) => {
+    const section = document.querySelector(`#${scrollElem}`);
+    window.scrollTo(0, section.offsetTop);
+  };
   return props.products.isLoading ? (
     <Loader addClass="dark" fixed />
   ) : (
     <>
-      
       <section className="banner">
         {/* <img src={banner} aly="banner" /> */}
       </section>
-      <section className="categories">
+      <section
+        className={sectionFixed ? 'fixed categories' : 'categories'}
+        ref={categories}
+      >
         <div className="container">
           <nav className="categories__list">
             {props.products.categories.map((category, i) => (
-              <a
+              <button
                 className="categories__list-item"
                 key={i}
-                href={`#${category}`}
+                onClick={() => anchorHandler(category)}
               >
                 {category}
-              </a>
+              </button>
             ))}
           </nav>
         </div>
       </section>
-      {props.products.categories.map((category) => (
+      {props.products.categories.map((category, i) => (
         <section className="products" id={category} key={category}>
           <div className="container">
-            <h2
-              className="products__title section-title"
-            >
-              {category}
-            </h2>
+            <h2 className="products__title section-title">{category}</h2>
             <ul className="products__list">
               {props.products.products
-                .filter((product) => product.category === category && product.isVisible)
+                .filter(
+                  (product) =>
+                    product.category === category && product.isVisible
+                )
                 .map((item) => (
-                  <Product addClass="products__list-item" product={item} key={item._id} />
+                  <Product
+                    addClass="products__list-item"
+                    product={item}
+                    key={item._id}
+                  />
                 ))}
             </ul>
           </div>

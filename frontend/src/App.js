@@ -16,6 +16,8 @@ import { connect } from 'react-redux';
 import Footer from './common/Footer'
 
 function App(props) {
+  
+  
   return (
     <div className="App">
       <Header userInfo={props.profile.userInfo} />
