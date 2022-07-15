@@ -117,11 +117,22 @@
       color: var(--text-second);
     }
   }
-  &__search-submit {
+  &__search-clear {
     position: absolute;
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all .2s;
+    svg{
+      width: 24px;
+      height: 24px;
+    }
+    &.active{
+      opacity: 1;
+      visibility: visible;
+    }
   }
   &__contacts {
     display: flex;

@@ -69,7 +69,7 @@ function HomeScreen(props) {
         </div>
       </section>
       {props.products.categories.map((category, i) => (
-        <section className="products" id={category} key={category}>
+        <section className={i === 0 ? "first products" : "products"} id={category} key={category}>
           <div className="container">
             <h2 className="products__title section-title">{category}</h2>
             <ul className="products__list">
