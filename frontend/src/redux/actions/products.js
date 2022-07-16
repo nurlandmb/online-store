@@ -8,6 +8,7 @@ import {
   CATEGORIES_FETCH_ERROR,
 } from '../actionTypes';
 import { toast } from 'react-toastify'
+import { getError } from '../../utils';
 
 // axios.defaults.baseURL = 'http://localhost:5000';
 
@@ -17,7 +18,7 @@ export const loadProducts = () => async (dispatch) => {
     const { data } = await axios.get('/api/product');
     dispatch(productsFetchSuccess(data));
   } catch (err) {
-    toast.error(err.message)
+    toast.error(getError(err))
     dispatch(productsFetchError(err));
     console.log(err);
   }
@@ -29,7 +30,7 @@ export const loadCategories = () => async (dispatch) => {
     const { data } = await axios.get('/api/product/categories');
     dispatch(categoriesFetchSuccess(data));
   } catch (err) {
-    toast.error(err.message)
+    toast.error(getError(err))
     dispatch(categoriesFetchError(err))
   }
 };

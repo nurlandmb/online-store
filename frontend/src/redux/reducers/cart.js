@@ -19,7 +19,7 @@ const inititalState = {
 const cartReducer = (state = inititalState, action) => {
   switch (action.type) {
     case CART_EDIT:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, sendStatus: '' };
     case CART_SEND_START:
       return { ...state, isSending: true };
     case CART_SEND_SUCCESS:

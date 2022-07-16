@@ -202,6 +202,17 @@ function OrderPopup(props) {
               >
                 Ваш адрес
               </label>
+              {/* <div className="active dropdown order-popup__form-input__dropdown">
+                <button className="dropdown__text">Узынагаш</button>
+                <div className="dropdown__content">
+                  <button className="first dropdown__content-item">Узынагаш</button>
+                  <button className="dropdown__content-item">Мынбаев</button>
+                  <button className="dropdown__content-item">Каргалы</button>
+                  <button className="last dropdown__content-item">
+                    Жанакурылыс
+                  </button>
+                </div>
+              </div> */}
               <input
                 className="order-popup__form-input__item address"
                 onFocus={(e) => inputFocusHandler(e)}

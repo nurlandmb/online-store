@@ -33,6 +33,11 @@ function HomeScreen(props) {
       window.removeEventListener('scroll', logit);
     };
   });
+  const getLength = (category) => {
+    return props.products.products.filter(
+      (product) => product.category === category && product.isVisible
+    ).length;
+  };
   // useEffect(() => {
   //   console.log('abc');
   //   if(window.scrollY === document.querySelector('.categories').scrollHeight){
@@ -68,27 +73,30 @@ function HomeScreen(props) {
           </nav>
         </div>
       </section>
-      {props.products.categories.map((category, i) => (
-        <section className={i === 0 ? "first products" : "products"} id={category} key={category}>
-          <div className="container">
-            <h2 className="products__title section-title">{category}</h2>
-            <ul className="products__list">
-              {props.products.products
-                .filter(
-                  (product) =>
-                    product.category === category && product.isVisible
-                )
-                .map((item) => (
-                  <Product
-                    addClass="products__list-item"
-                    product={item}
-                    key={item._id}
-                  />
-                ))}
-            </ul>
-          </div>
-        </section>
-      ))}
+      {props.products.categories.filter(category => getLength(category) > 0).map(
+        (category, i) =>
+          !!getLength(category) > 0 && (
+            <section className={ i === 0 ? "first products" : "products"} id={category} key={category}>
+              <div className="container">
+                <h2 className="products__title section-title">{category}</h2>
+                <ul className="products__list">
+                  {props.products.products
+                    .filter(
+                      (product) =>
+                        product.category === category && product.isVisible
+                    )
+                    .map((item) => (
+                      <Product
+                        addClass="products__list-item"
+                        product={item}
+                        key={item._id}
+                      />
+                    ))}
+                </ul>
+              </div>
+            </section>
+          )
+      )}
     </>
   );
 }

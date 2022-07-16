@@ -107,11 +107,11 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
       ? `https://2gis.kz/geo/${shipment.coords.longitude},${shipment.coords.latitude}`
       : shipment.address;
     const res = await axios.post(
-      `${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${userLocation}&FIELDS[COMMENTS]=${comment}`
+      `${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${userLocation}&FIELDS[COMMENTS]=${comment}&FIELDS[OPPORTUNITY]=${cart.total}&FIELDS[CURRENCY_ID]=KZT`
     );
-    localStorage.setItem('nurlan-store-shippingInfo', JSON.stringify(shipment))
+    localStorage.setItem('nurlan-store-shippingInfo', JSON.stringify(shipment));
     localStorage.removeItem('nurlan-online-store-cart');
-    dispatch(cartSendSuccess(res.status))
+    dispatch(cartSendSuccess(res.status));
   } catch (err) {
     dispatch(cartSendError(err));
     console.log(err);

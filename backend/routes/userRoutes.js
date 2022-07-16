@@ -20,7 +20,7 @@ userRouter.post(
       });
       return;
     }
-    res.status(401).send({ message: 'Invalid phone or password' });
+    res.status(401).send({ message: 'Неправильный номер или пароль' });
   })
 );
 
@@ -63,7 +63,7 @@ userRouter.post(
         token: generateToken(updatedUser)
       })
     }else{
-      res.status(401).send({ message: 'User not found or password is wrong' })
+      res.status(401).send({ message: 'Неправильный номер или пароль' })
     }
   })
 );

@@ -16,7 +16,7 @@ export const editExistingProduct = (product, user) => async (dispatch) => {
     const req = await axios.post(`/api/product/edit/${product._id}`, product, {
       headers: { authorization: `Bearer ${user.token}` },
     });
-    toast.success('Product edited successfully');
+    toast.success('Продукт успешно отредактирован');
     dispatch(productEditSuccess());
   } catch (err) {
     dispatch(productEditError(err));
@@ -29,7 +29,7 @@ export const productDeleteHandler = (product, user) => async (dispatch) => {
     await axios.delete(`/api/product/${product._id}`, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
-    toast.success('product deleted successfully');
+    toast.success('Продукт успешно удален');
     dispatch(productEditSuccess());
   } catch (err) {
     toast.error(err);
@@ -52,7 +52,7 @@ export const createProduct = (product, user) => async (dispatch) => {
     const req = await axios.post('/api/product/create/', product, {
       headers: { authorization: `Bearer ${user.token}` },
     });
-    toast.success('Product created successfully');
+    toast.success('Продукт успешно создан');
 
     dispatch(productEditSuccess());
   } catch (err) {

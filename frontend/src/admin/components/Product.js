@@ -16,7 +16,7 @@ function Product(props) {
         `/api/product/edit/${props.product._id}`,
         {
           isVisible: !isVisible,
-          isPopular: props.product.isPopular
+          isPopular: props.product.isPopular,
         },
         {
           headers: { authorization: `Bearer ${props.profile.userInfo.token}` },
@@ -45,7 +45,14 @@ function Product(props) {
           <p className="product__content-descr">{props.product.description}</p>
           <div className="product__content-bottom">
             <p className="product__content-bottom__price">
-              {props.product.price} ₸
+              {props.product.priceWithDiscount ? (
+                <>
+                  {props.product.priceWithDiscount}₸{' '}
+                  <span>{props.product.price}₸</span>
+                </>
+              ) : (
+                props.product.price + '₸'
+              )}{' '}
             </p>
             <div className="product__content-bottom__edit">
               <button
