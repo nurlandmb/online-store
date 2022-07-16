@@ -40,8 +40,9 @@ function CartScreen(props) {
                 {props.cart.total} ₸
               </h3>
               <p className="cart__total-content__subtitle">
-                До бесплатной доставки не хватет:
-                <span>100 ₽</span>
+                {/* До бесплатной доставки не хватет:
+                <span>100 ₽</span> */}
+                Доставка бесплатная!
               </p>
             </div>
             <button

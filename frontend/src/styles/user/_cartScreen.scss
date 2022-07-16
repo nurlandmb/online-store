@@ -161,6 +161,7 @@
   &__list {
     display: flex;
     margin: -10px;
+    flex-wrap: wrap;
   }
   &__list-item {
     margin: 8px;
