@@ -61,7 +61,7 @@ function HomeScreen(props) {
       >
         <div className="container">
           <nav className="categories__list">
-            {props.products.categories.map((category, i) => (
+            {props.products.categories.filter(category => getLength(category) > 0).map((category, i) => (
               <button
                 className="categories__list-item"
                 key={i}
