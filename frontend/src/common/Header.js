@@ -50,7 +50,7 @@ function Header(props) {
             fill="#70A177"
           />
         </svg>
-        <h3 className="home-popup__title">КОРЗИНА ПУСТАЯ</h3>
+        <h3 className="home-popup__title">Your cart is empty</h3>
         <button
           className="home-popup__button"
           onClick={() => {
@@ -58,7 +58,7 @@ function Header(props) {
             navigate('/');
           }}
         >
-          Посмотреть меню
+          See menu
         </button>
       </Popup>
       <header className="header">
@@ -115,7 +115,7 @@ function Header(props) {
                     </svg>
                   </div>
                   <p className="header__contacts-content">
-                    <span>Контакты:</span>
+                    <span>Contacts:</span>
                     +7 (917) 510-57-59
                   </p>
                 </a>
@@ -243,7 +243,7 @@ function Header(props) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  <span>Выйти</span>
+                  <span>Log out</span>
                 </button>
               )}
               <button className="header__cart" onClick={cartClickHandler}>
@@ -289,7 +289,7 @@ function Header(props) {
                     />
                   </svg>
                 </span>
-                Корзина
+                Cart
                 {!!props.cart.quantity && (
                   <span className="header__cart-count">
                     {props.cart.quantity}

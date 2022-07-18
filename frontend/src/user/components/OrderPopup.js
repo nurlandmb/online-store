@@ -69,7 +69,7 @@ function OrderPopup(props) {
         console.log(pos.coords.accuracy);
         if (pos.coords.accuracy > 100) {
           alert(
-            'Не получилось получить точную геолокацию. Пожалуйста, попробуйте снова или введите их вручную'
+            'Please insert your address manually'
           );
           return;
         }
@@ -77,11 +77,11 @@ function OrderPopup(props) {
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
         });
-        setAddress('Текущий адрес');
+        setAddress('Current address');
       },
       (err) =>
         alert(
-          'Что-то пошло не так. Пожалуйста, проверьте включен ли у вас GPS и попробуйте снова'
+          'Something went wrong. Please, check your GPS and try again'
         ),
       { enableHighAccuracy: true }
     );
@@ -101,7 +101,7 @@ function OrderPopup(props) {
     >
       {props.cart.isSending && <Loader fixed addClass="dark" />}
 
-      <h3 className="order-popup__title">Оформление заказа</h3>
+      <h3 className="order-popup__title">Checkout</h3>
       <form
         className={
           inputDisabled ? 'order-popup__form disabled' : 'order-popup__form'
@@ -126,7 +126,7 @@ function OrderPopup(props) {
               }
               htmlFor="radio1"
             >
-              Доставка
+              Deliver
             </label>
           </div>
           <div className="order-popup__form-radio">
@@ -146,7 +146,7 @@ function OrderPopup(props) {
               }
               htmlFor="radio2"
             >
-              Самовывоз
+              Pickup
             </label>
           </div>
         </div>
@@ -160,7 +160,7 @@ function OrderPopup(props) {
                     : 'order-popup__form-input__label'
                 }
               >
-                Ваше имя
+                Your name
               </label>
               <input
                 className="order-popup__form-input__item"
@@ -179,7 +179,7 @@ function OrderPopup(props) {
                     : 'order-popup__form-input__label'
                 }
               >
-                Ваш номер
+                Your number
               </label>
               <InputMask
                 type="tel"
@@ -200,7 +200,7 @@ function OrderPopup(props) {
                     : 'order-popup__form-input__label'
                 }
               >
-                Ваш адрес
+                Your address
               </label>
               {/* <div className="active dropdown order-popup__form-input__dropdown">
                 <button className="dropdown__text">Узынагаш</button>
@@ -261,7 +261,7 @@ function OrderPopup(props) {
                     : 'order-popup__form-input__label'
                 }
               >
-                Комментарий
+                Comment
               </label>
             </div>
           </div>
@@ -282,7 +282,7 @@ function OrderPopup(props) {
               />
             </svg>
             <address className="order-popup__form-info__address">
-              Мы находимся по адресу: <span>Алматы, улица Мароква, дом 56</span>
+              We are located at: <span>Almaty, Marokva street, house 56</span>
             </address>
           </div>
         )}
@@ -290,14 +290,14 @@ function OrderPopup(props) {
           <p className="order-popup__form-price">
             {!props.cart.sendStatus ? (
               <>
-                Общая цена: <span>{props.cart.total} ₸</span>
+                Total price: <span>{props.cart.total} ₸</span>
               </>
             ) : props.cart.sendStatus === 200 ? (
               <span className="success">
-                Заявка успешно оформлена! Ожидайте звонок от менеджера
+                Application successfully completed! Expect a call from the manager
               </span>
             ) : (
-              'Что-то пошло не так. Пожалуйса, перезагрузите страницу и попробуйте снова'
+              'Something went wrong. Please, restart the page and start again'
             )}
           </p>
           <button
@@ -305,7 +305,7 @@ function OrderPopup(props) {
             onClick={orderSubmitHandler}
             disabled={inputDisabled}
           >
-            Оформить
+            Checkout
           </button>
         </div>
       </form>

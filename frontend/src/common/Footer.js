@@ -7,7 +7,7 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <h2 className="footer__title">Связаться с нами</h2>
+        <h2 className="footer__title">Contact us</h2>
         <nav className="footer__social">
           <Link to="/" className="footer__social-item">
             <img src={telegramLogo} alt="instagram" />
@@ -19,10 +19,10 @@ function Footer() {
           </Link>
           <Link to="/" className="footer__social-item">
             <img src={phone} alt="instagram" />
-            <span className="footer__social-item__text">+7 776 211 5300</span>
+            <span className="footer__social-item__text">+1 (123) 456 7890</span>
           </Link>
         </nav>
-        <p className="footer__copy">© 2022 Restaurant. Все права защищены</p>
+        <p className="footer__copy">© 2022 Restaurant. All rights reserved</p>
       </div>
     </footer>
   );

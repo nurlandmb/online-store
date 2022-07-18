@@ -75,7 +75,7 @@ function Search(props) {
         <input
           className="header__search-input"
           type="text"
-          placeholder="Поиск"
+          placeholder="Search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />

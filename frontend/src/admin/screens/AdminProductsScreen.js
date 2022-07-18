@@ -121,16 +121,16 @@ function AdminProductsScreen(props) {
   };
   const productDelete = (e) => {
     const text = e.target.textContent;
-    if (text === 'Удалить товар') {
-      e.target.textContent = 'Вы уверены?';
+    if (text === 'Delete product') {
+      e.target.textContent = 'Are you sure?';
       e.target.classList.add('active');
       setTimeout(() => {
-        e.target.textContent = 'Удалить товар';
+        e.target.textContent = 'Delete product';
       }, 3000);
       return;
     }
     props.productDeleteHandler(editingProduct, props.profile.userInfo);
-    e.target.textContent = 'Удалить товар';
+    e.target.textContent = 'Delete product';
     e.target.classList.remove('active');
   };
   return (
@@ -158,7 +158,7 @@ function AdminProductsScreen(props) {
                     setEditingProduct({ ...editingProduct, image: '' })
                   }
                 >
-                  Удалить
+                  Delete
                 </button>
               </div>
             ) : (
@@ -188,7 +188,7 @@ function AdminProductsScreen(props) {
                       d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
                     />
                   </svg>
-                  <span>Загрузите изображение (Не больше 1мб)</span>
+                  <span>Upload image (Less than 1mb)</span>
                 </label>
               </>
             )}
@@ -201,7 +201,7 @@ function AdminProductsScreen(props) {
                   : 'admin-products__form-placeholder'
               }
             >
-              Название
+              Name
             </label>
             <input
               onBlur={inputBlurHandler}
@@ -222,7 +222,7 @@ function AdminProductsScreen(props) {
                   : 'admin-products__form-placeholder'
               }
             >
-              Короткая информация
+              Short info
             </label>
             <input
               onBlur={inputBlurHandler}
@@ -256,7 +256,7 @@ function AdminProductsScreen(props) {
                   : 'admin-products__form-placeholder'
               }
             >
-              Описание
+              Description
             </label>
           </div>
           <div className="admin-products__form-wrapper" id="price">
@@ -267,7 +267,7 @@ function AdminProductsScreen(props) {
                   : 'admin-products__form-placeholder'
               }
             >
-              Цена
+              Price
             </label>
             <input
               onBlur={inputBlurHandler}
@@ -282,7 +282,7 @@ function AdminProductsScreen(props) {
           </div>
           <div className="admin-products__form-wrapper flex">
             <label className="admin-products__form-text" htmlFor="discount">
-              Скидка
+              Discount
             </label>
             <label className="check">
               <input
@@ -312,7 +312,7 @@ function AdminProductsScreen(props) {
                     : 'admin-products__form-placeholder'
                 }
               >
-                Цена со скидкой
+                Price with discount
               </label>
               <input
                 onBlur={inputBlurHandler}
@@ -341,7 +341,7 @@ function AdminProductsScreen(props) {
                   : 'admin-products__form-placeholder'
               }
             >
-              Категория
+              Category
             </label>
             <input
               onBlur={inputBlurHandler}
@@ -359,7 +359,7 @@ function AdminProductsScreen(props) {
           </div>
           <div className="admin-products__form-wrapper flex">
             <label className="admin-products__form-text" htmlFor="ispopular">
-              Популярный
+              Popular
             </label>
             <label className="check">
               <input
@@ -380,7 +380,7 @@ function AdminProductsScreen(props) {
             className="admin-products__form-submit"
             disabled={props.adminProduct.isLoading}
           >
-            Сохранить
+            Save
           </button>
           {props.adminProduct.product.type === 'edit' && (
             <button
@@ -388,7 +388,7 @@ function AdminProductsScreen(props) {
               type="button"
               onClick={(e) => productDelete(e)}
             >
-              Удалить товар
+              Delete product
             </button>
           )}
         </form>
@@ -396,7 +396,7 @@ function AdminProductsScreen(props) {
       <section className="section admin-products">
         <div className="container">
           <div className="admin-products__top">
-            <h2 className="section-title admin-products__list">Все продукты</h2>
+            <h2 className="section-title admin-products__list">All products</h2>
             <button
               className="admin-products__top-button"
               onClick={() =>
@@ -414,7 +414,7 @@ function AdminProductsScreen(props) {
                 })
               }
             >
-              Добавить товар
+              Add product
             </button>
           </div>
           <ul className="admin-products__list">

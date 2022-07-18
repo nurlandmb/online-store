@@ -47,11 +47,22 @@ function Product(props) {
             <p className="product__content-bottom__price">
               {props.product.priceWithDiscount ? (
                 <>
-                  {props.product.priceWithDiscount}₸{' '}
-                  <span>{props.product.price}₸</span>
+                  {props.product.priceWithDiscount.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })}{' '}
+                  <span>
+                    {props.product.price.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
                 </>
               ) : (
-                props.product.price + '₸'
+                props.product.price.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })
               )}{' '}
             </p>
             <div className="product__content-bottom__edit">

@@ -13,7 +13,7 @@ function Product(props) {
     priceWithDiscount,
     _id,
     quantity,
-    shortInfo
+    shortInfo,
   } = product;
   useEffect(() => {
     const cartProduct = props.cart.cartItems.find(
@@ -39,14 +39,25 @@ function Product(props) {
         <p className="product__content-descr">{description}</p>
         <div className="product__content-bottom">
           <p className="product__content-bottom__price">
-            {priceWithDiscount ? (
+            {props.product.priceWithDiscount ? (
               <>
-                {priceWithDiscount}₸ <span>{price}₸</span>
+                {props.product.priceWithDiscount.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}{' '}
+                <span>
+                  {props.product.price.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                  })}
+                </span>
               </>
             ) : (
-              price + '₸'
+              props.product.price.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })
             )}{' '}
-            
           </p>
           {!!quantity && quantity >= 1 ? (
             <div className="product__content-bottom__cart">
@@ -106,7 +117,7 @@ function Product(props) {
                 props.cartHandler(props.product, 'add', props.cart.cartItems)
               }
             >
-              В корзину
+              Add to cart
               <span>
                 <svg
                   width="24"
