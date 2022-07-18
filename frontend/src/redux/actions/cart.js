@@ -17,7 +17,7 @@ export const countTotal = (cart) =>
         ? product.priceWithDiscount * product.quantity
         : product.price * product.quantity),
     0
-  );
+  ).toFixed(2);
 
 export const getPopularItems =
   (allProducts, cartProducts) => async (dispatch) => {
