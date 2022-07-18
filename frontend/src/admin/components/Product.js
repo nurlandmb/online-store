@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
+  alertUser,
   productEdit,
   productEditClose,
 } from '../../redux/actions/adminProduct';
@@ -68,7 +69,7 @@ function Product(props) {
             <div className="product__content-bottom__edit">
               <button
                 className="product__content-bottom__edit-item hide"
-                onClick={visibilityHandler}
+                onClick={() => props.alertUser()}
               >
                 {isVisible ? (
                   <svg
@@ -145,6 +146,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     productEdit: (product, type) => dispatch(productEdit(product, type)),
     productEditClose: () => dispatch(productEditClose()),
+    alertUser: () => dispatch(alertUser())
   };
 };
 

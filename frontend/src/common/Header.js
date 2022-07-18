@@ -83,7 +83,7 @@ function Header(props) {
               </div>
               <div className="header__content">
                 <Search isAdmin={props.userInfo.isAdmin}/>
-                <a className="header__contacts" href="tel:+77762115300">
+                <a className="header__contacts" href="tel:+77777777777">
                   <div className="header__contacts-svg">
                     <svg
                       width="14"
@@ -116,7 +116,7 @@ function Header(props) {
                   </div>
                   <p className="header__contacts-content">
                     <span>Contacts:</span>
-                    +7 (917) 510-57-59
+                    +7 (123) 456-78-90
                   </p>
                 </a>
               </div>

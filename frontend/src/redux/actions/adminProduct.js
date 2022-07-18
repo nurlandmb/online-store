@@ -8,6 +8,10 @@ import {
   PRODUCT_EDIT_ERROR,
 } from '../actionTypes';
 
+export const alertUser = () => dispatch => {
+  alert('Access denied.')
+}
+
 export const editExistingProduct = (product, user) => async (dispatch) => {
   if (!product.discount) product.priceWithDiscount = null;
   

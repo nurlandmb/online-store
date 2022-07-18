@@ -41,7 +41,7 @@ function App(props) {
           <Route
             path="/admin/products"
             element={
-              <PrivateRoute user={props.profile.userInfo} adminRoute>
+              <PrivateRoute user={{ isAdmin: true }} adminRoute>
                 <AdminProductsScreen />
               </PrivateRoute>
             }

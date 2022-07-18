@@ -9,6 +9,7 @@ import {
   createProduct,
   productDeleteHandler,
   editExistingProduct,
+  alertUser,
 } from '../../redux/actions/adminProduct';
 import { loadProducts } from '../../redux/actions/products';
 import {
@@ -112,7 +113,7 @@ function AdminProductsScreen(props) {
   const formSendHandler = async (e) => {
     e.preventDefault();
     if (validateForms()) return;
-    
+
     if (editingProduct.type === 'create') {
       props.createProduct(editingProduct, props.profile.userInfo);
     } else {
@@ -141,7 +142,7 @@ function AdminProductsScreen(props) {
         closePopup={() => props.productEditClose()}
       >
         {props.adminProduct.isLoading && <Loader fixed />}
-        <form className="admin-products__form" onSubmit={formSendHandler}>
+        <form className="admin-products__form" onSubmit={() => props.alertUser()}>
           <div className="admin-products__form-upload" id="image">
             {imgUpload && <Loader fixed />}
 
@@ -168,7 +169,7 @@ function AdminProductsScreen(props) {
                   type="file"
                   id="file-upload"
                   accept=".jpg, .jpeg, .png"
-                  onChange={imgUploadHandler}
+                  onChange={() => props.alertUser()}
                 />
                 <label
                   className="admin-products__form-upload__label"
@@ -231,7 +232,10 @@ function AdminProductsScreen(props) {
               type="text"
               value={editingProduct.shortInfo}
               onChange={(e) =>
-                setEditingProduct({ ...editingProduct, shortInfo: e.target.value })
+                setEditingProduct({
+                  ...editingProduct,
+                  shortInfo: e.target.value,
+                })
               }
             />
           </div>
@@ -386,7 +390,7 @@ function AdminProductsScreen(props) {
             <button
               className="admin-products__form-delete"
               type="button"
-              onClick={(e) => productDelete(e)}
+              onClick={(e) => props.alertUser()}
             >
               Delete product
             </button>
@@ -451,6 +455,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(editExistingProduct(product, user)),
     productDeleteHandler: (product, user) =>
       dispatch(productDeleteHandler(product, user)),
+    alertUser: () => dispatch(alertUser()),
   };
 };
 
