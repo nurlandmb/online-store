@@ -25,15 +25,13 @@ function CartScreen(props) {
             Cart
             <span>
               You have {props.cart.quantity} product
-              {props.cart.quantity !== 1 ? 's' : ''}{' '}
-              in cart
+              {props.cart.quantity !== 1 ? 's' : ''} in cart
             </span>
           </h1>
           <div className="cart__total">
             <div className="cart__total-content">
               <h3 className="cart__total-content__title">
-                <span>Total: </span>
-                ${props.cart.total}
+                <span>Total: </span>${props.cart.total}
               </h3>
               <p className="cart__total-content__subtitle">
                 {/* До бесплатной доставки не хватет:
@@ -141,11 +139,22 @@ function CartScreen(props) {
                     <p className="cart-products__list-item__price">
                       {product.priceWithDiscount ? (
                         <>
-                          {product.priceWithDiscount + '₸'}{' '}
-                          <span>{product.price}₸</span>
+                          {product.priceWithDiscount.toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                          })}{' '}
+                          <span>
+                            {product.price.toLocaleString('en-US', {
+                              style: 'currency',
+                              currency: 'USD',
+                            })}
+                          </span>
                         </>
                       ) : (
-                        product.price + '₸'
+                        product.price.toLocaleString('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                        })
                       )}
                     </p>
                     <button
