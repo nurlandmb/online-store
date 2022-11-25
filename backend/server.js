@@ -10,7 +10,7 @@ import uploadRouter from './routes/uploadRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 import cors from 'cors';
-
+import path from 'path';
 dotenv.config();
 
 mongoose
