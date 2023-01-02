@@ -1,9 +1,15 @@
 import Layout from '../components/Layout';
 import React, { useEffect, useRef, useState } from 'react';
 import Product from '../components/user/Product';
-import { loadProducts, loadCategories } from '../redux/actions/products';
+import {
+  loadProducts,
+  loadCategories,
+  categoriesFetchSuccess,
+  productsFetchSuccess
+} from '../redux/actions/products';
 import { connect } from 'react-redux';
 import Loader from '../components/common/Loader';
+import axios from 'axios';
 
 function HomeScreen(props) {
   const categories = useRef(null);
@@ -11,8 +17,8 @@ function HomeScreen(props) {
   const [sectionFixed, setSectionFixed] = useState(false);
 
   useEffect(() => {
-    props.loadCategories();
-    props.loadProducts();
+    props.productsFetchSuccess(props.serverProducts);
+    props.categoriesFetchSuccess(props.serverCategories);
     setCategoriesCroll(categories.current.offsetTop);
   }, []);
 
@@ -38,12 +44,7 @@ function HomeScreen(props) {
       (product) => product.category === category && product.isVisible
     ).length;
   };
-  // useEffect(() => {
-  //   console.log('abc');
-  //   if(window.scrollY === document.querySelector('.categories').scrollHeight){
-  //     console.log('action');
-  //   }
-  // }, [window.pageYOffset])
+
   const anchorHandler = (scrollElem) => {
     const section = document.querySelector(`#${scrollElem}`);
     window.scrollTo(0, section.offsetTop);
@@ -61,7 +62,7 @@ function HomeScreen(props) {
       >
         <div className="container">
           <nav className="categories__list">
-            {props.products.categories
+            {props.serverCategories
               .filter((category) => getLength(category) > 0)
               .map((category, i) => (
                 <button
@@ -75,7 +76,7 @@ function HomeScreen(props) {
           </nav>
         </div>
       </section>
-      {props.products.categories
+      {props.serverCategories
         .filter((category) => getLength(category) > 0)
         .map(
           (category, i) =>
@@ -88,7 +89,7 @@ function HomeScreen(props) {
                 <div className="container">
                   <h2 className="products__title section-title">{category}</h2>
                   <ul className="products__list">
-                    {props.products.products
+                    {props.serverProducts
                       .filter(
                         (product) =>
                           product.category === category && product.isVisible
@@ -106,7 +107,7 @@ function HomeScreen(props) {
             )
         )}
     </>
-  )
+  );
 }
 
 const mapStateToProps = (state) => {
@@ -118,7 +119,23 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loadProducts: () => dispatch(loadProducts()),
     loadCategories: () => dispatch(loadCategories()),
+    productsFetchSuccess: (products) =>
+      dispatch(productsFetchSuccess(products)),
+    categoriesFetchSuccess: (categories) =>
+      dispatch(categoriesFetchSuccess(categories)),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+
+export const getStaticProps = async () => {
+  axios.defaults.baseURL = 'http://localhost:5000';
+  const { data: serverProducts } = await axios.get('/api/product');
+  const { data: serverCategories } = await axios.get('/api/product/categories');
+  return {
+    props: {
+      serverProducts,
+      serverCategories,
+    },
+  };
+};
