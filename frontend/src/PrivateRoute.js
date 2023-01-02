@@ -8,7 +8,6 @@ function PrivateRoute(props) {
     return user && user.isAdmin ? props.children : <Navigate to="/admin/signin" />
   }
   return user ? props.children : <Navigate to="/signin" />
-  
 }
 
 export default PrivateRoute
