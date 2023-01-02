@@ -46,14 +46,18 @@ function Product(props) {
             ) : (
               price + '₸'
             )}{' '}
-            
           </p>
           {!!quantity && quantity >= 1 ? (
             <div className="product__content-bottom__cart">
               <button
                 className="product__content-bottom__cart-button"
                 onClick={() =>
-                  props.cartHandler(product, 'minus', props.cart.cartItems)
+                  props.cartHandler(
+                    product,
+                    'minus',
+                    props.cart.cartItems,
+                    props.cart.couponDiscount
+                  )
                 }
               >
                 <svg
@@ -82,7 +86,12 @@ function Product(props) {
               <button
                 className="product__content-bottom__cart-button plus"
                 onClick={() =>
-                  props.cartHandler(product, 'plus', props.cart.cartItems)
+                  props.cartHandler(
+                    product,
+                    'plus',
+                    props.cart.cartItems,
+                    props.cart.couponDiscount
+                  )
                 }
               >
                 <svg
@@ -103,7 +112,12 @@ function Product(props) {
             <button
               className="product__content-bottom__button"
               onClick={() =>
-                props.cartHandler(props.product, 'add', props.cart.cartItems)
+                props.cartHandler(
+                  props.product,
+                  'add',
+                  props.cart.cartItems,
+                  props.cart.couponDiscount
+                )
               }
             >
               В корзину
@@ -165,8 +179,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    cartHandler: (product, type, cart) =>
-      dispatch(cartHandler(product, type, cart)),
+    cartHandler: (product, type, cart, discount) =>
+      dispatch(cartHandler(product, type, cart, discount)),
   };
 };
 

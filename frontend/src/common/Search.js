@@ -6,13 +6,14 @@ import { ReactComponent as FoodSvg } from '../img/food.svg';
 import { productEdit } from '../redux/actions/adminProduct';
 function Search(props) {
   const [query, setQuery] = useState('');
+  const [searchActive, setSearchActive] = useState(false);
   const formSubmitHandler = (e) => {
     e.preventDefault();
   };
-  const productEditHandler = product => {
-    setQuery('')
-    props.productEdit(product, 'edit')
-  }
+  const productEditHandler = (product) => {
+    setQuery('');
+    props.productEdit(product, 'edit');
+  };
   useEffect(() => {
     setQuery('');
   }, [window.location.href]);
@@ -38,7 +39,13 @@ function Search(props) {
         </svg>
       `;
     });
-    props.cartHandler(product, 'add', props.cart.cartItems);
+    props.cartHandler(
+      product,
+      'add',
+      props.cart.cartItems,
+      props.cart.couponDiscount
+    );
+    setSearchActive(false);
   };
   return (
     <div className="header__search-wrapper">
@@ -78,16 +85,39 @@ function Search(props) {
           placeholder="Поиск"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setSearchActive(true)}
+          onBlur={() => setSearchActive(false)}
         />
-        <button className={query ? "active header__search-clear" : "header__search-clear"} type="button" onClick={() => setQuery('')}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        <button
+          className={
+            query ? 'active header__search-clear' : 'header__search-clear'
+          }
+          type="button"
+          onClick={() => setQuery('')}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </form>
-      {!!props.search.searchProducts.length && (
-        <ul className={`header__search-list ${props.addClass}`}>
-          {props.search.searchProducts.map((product, i) => (
+
+      <ul
+        className={props.search.searchProducts
+          .length && searchActive ? `header__search-list ${props.addClass} active` : `header__search-list ${props.addClass}`}
+      >
+        {props.search.searchProducts.length &&
+          props.search.searchProducts.map((product, i) => (
             <li
               className={`header__search-list__item ${i === 0 && 'first'} ${
                 i + 1 === props.search.searchProducts.length && 'last'
@@ -106,7 +136,10 @@ function Search(props) {
               </div>
               <div className="header__search-list__item-wrapper">
                 {props.isAdmin && (
-                  <button className="header__search-list__item-button" onClick={() => productEditHandler(product)}>
+                  <button
+                    className="header__search-list__item-button"
+                    onClick={() => productEditHandler(product)}
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -122,7 +155,7 @@ function Search(props) {
                   </button>
                 )}
                 <button
-                  className="header__search-list__item-button cart"
+                  className={'header__search-list__item-button cart'}
                   onClick={(e) => addToCart(e, product)}
                   id={`header-search${product._id}`}
                 >
@@ -142,8 +175,7 @@ function Search(props) {
               </div>
             </li>
           ))}
-        </ul>
-      )}
+      </ul>
     </div>
   );
 }
@@ -160,8 +192,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     searchProduct: (products, cartProducts, query) =>
       dispatch(searchProduct(products, cartProducts, query)),
-    cartHandler: (product, type, cart) =>
-      dispatch(cartHandler(product, type, cart)),
+    cartHandler: (product, type, cart, discount) =>
+      dispatch(cartHandler(product, type, cart, discount)),
     productEdit: (product, type) => dispatch(productEdit(product, type)),
   };
 };

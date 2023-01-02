@@ -9,7 +9,7 @@ import SignUpScreen from './user/screens/SignUpScreen';
 import CartScreen from './user/screens/CartScreen';
 import PrivateRoute from './PrivateRoute';
 import AdminProductsScreen from './admin/screens/AdminProductsScreen';
-import AdminOrdersScreen from './admin/screens/AdminOrdersScreen';
+import AdminCouponsScreen from './admin/screens/AdminCouponsScreen';
 import Header from './common/Header';
 import { ToastContainer } from 'react-toastify';
 import { connect } from 'react-redux';
@@ -43,6 +43,14 @@ function App(props) {
             element={
               <PrivateRoute user={props.profile.userInfo} adminRoute>
                 <AdminProductsScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/coupons"
+            element={
+              <PrivateRoute user={props.profile.userInfo} adminRoute>
+                <AdminCouponsScreen />
               </PrivateRoute>
             }
           />

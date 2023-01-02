@@ -290,7 +290,8 @@ function OrderPopup(props) {
           <p className="order-popup__form-price">
             {!props.cart.sendStatus ? (
               <>
-                Общая цена: <span>{props.cart.total} ₸</span>
+                Общая цена:{' '}
+                <span>{props.cart.totalWtihCoupon || props.cart.total} ₸</span>
               </>
             ) : props.cart.sendStatus === 200 ? (
               <span className="success">

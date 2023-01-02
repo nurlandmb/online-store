@@ -9,9 +9,10 @@
 @use './user/_signScreens.scss';
 @use './user/_confirm.scss';
 @use './user/_orderPopup.scss';
-
+@use './user/coupon.scss';
 // ADMIN
 @use './admin/_productsScreen.scss';
+@use './admin/_couponScreen.scss';
 
 
 @use './media.scss';
