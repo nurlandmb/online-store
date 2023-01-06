@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Loader from '../../common/Loader';
 import Popup from '../../common/Popup';
 import Coupon from '../components/Coupon';
-axios.defaults.baseURL = 'http://localhost:5000';
+// axios.defaults.baseURL = 'http://localhost:5000';
 
 function AdminCouponsScreen(props) {
   const [couponName, setCouponName] = useState('');
