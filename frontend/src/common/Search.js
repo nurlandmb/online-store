@@ -45,7 +45,7 @@ function Search(props) {
       props.cart.cartItems,
       props.cart.couponDiscount
     );
-    setSearchActive(false);
+    setSearchActive(true);
   };
   return (
     <div className="header__search-wrapper">

@@ -30,7 +30,7 @@ function Coupon(props) {
   return (
     <div className="coupon">
       <div className="coupon__wrapper">
-        <h3 className="coupon__title">У вас есть купон? Введите его</h3>
+        <h3 className="coupon__title">У вас есть купон?</h3>
         {couponDiscount && (
           <p className="coupon__info success">
             Купон на {couponDiscount}% применен
