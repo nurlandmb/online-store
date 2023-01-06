@@ -107,29 +107,27 @@ export const cartSend = (cart, shipment) => async (dispatch) => {
   const commentUser = `Коментарий от покупателя: ${shipment.comment} <br>`;
   let commentTotal = cart.couponDiscount
     ? `Цена с купоном: ${cart.totalWtihCoupon} <br>`
-    : `Полная цена: ${cart.total} <br>`;
+    : `Полная цена: ${cart.total}`;
   let usedCoupon = '';
   if (cart.couponDiscount) {
     usedCoupon = `Использованный купон: ${cart.couponName} <br>`;
   }
   const comment = commentProducts + commentUser + commentTotal + usedCoupon;
-  console.log(cart);
-  console.log(comment);
-  // try {
-  //   dispatch(cartSendStart());
-  //   const userLocation = shipment.coords.latitude
-  //     ? `https://2gis.kz/geo/${shipment.coords.longitude},${shipment.coords.latitude}`
-  //     : shipment.address;
-  //   const res = await axios.post(
-  //     `${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${userLocation}&FIELDS[COMMENTS]=${comment}&FIELDS[OPPORTUNITY]=${cart.totalWtihCoupon || cart.total}&FIELDS[CURRENCY_ID]=KZT`
-  //   );
-  //   localStorage.setItem('nurlan-store-shippingInfo', JSON.stringify(shipment));
-  //   localStorage.removeItem('nurlan-online-store-cart');
-  //   dispatch(cartSendSuccess(res.status));
-  // } catch (err) {
-  //   dispatch(cartSendError(err));
-  //   console.log(err);
-  // }
+  try {
+    dispatch(cartSendStart());
+    const userLocation = shipment.coords.latitude
+      ? `https://2gis.kz/geo/${shipment.coords.longitude},${shipment.coords.latitude}`
+      : shipment.address;
+    const res = await axios.post(
+      `${process.env.REACT_APP_BITRIX_API}?FIELDS[TITLE]=Новый лид&FIELDS[NAME]=${shipment.name}&FIELDS[ADDRESS]=${userLocation}&FIELDS[COMMENTS]=${comment}&FIELDS[OPPORTUNITY]=${cart.totalWtihCoupon || cart.total}&FIELDS[CURRENCY_ID]=KZT`
+    );
+    localStorage.setItem('nurlan-store-shippingInfo', JSON.stringify(shipment));
+    localStorage.removeItem('nurlan-online-store-cart');
+    dispatch(cartSendSuccess(res.status));
+  } catch (err) {
+    dispatch(cartSendError(err));
+    console.log(err);
+  }
 };
 
 export const getCoupon = (coupon) => async (dispatch) => {

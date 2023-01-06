@@ -174,7 +174,7 @@ function OrderPopup(props) {
             <div className="active order-popup__form-input" id="phone">
               <label
                 className={
-                  name
+                  phone
                     ? 'active order-popup__form-input__label'
                     : 'order-popup__form-input__label'
                 }
