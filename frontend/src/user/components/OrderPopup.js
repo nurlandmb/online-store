@@ -5,8 +5,10 @@ import Loader from '../../common/Loader';
 import { cartSend } from '../../redux/actions/cart';
 import InputMask from 'react-input-mask';
 import { Link } from 'react-router-dom';
+import useAnalyticsEventTracker from '../../useAnalyticsEventTracker';
 
 function OrderPopup(props) {
+  const gaEventTracker = useAnalyticsEventTracker('Cart');
   const [shipment, setShipment] = useState(true);
   const [name, setName] = useState(props.profile.shippingInfo.name || '');
   const [phone, setPhone] = useState(props.profile.shippingInfo.phone || '');
@@ -53,6 +55,7 @@ function OrderPopup(props) {
     e.preventDefault();
     const validate = shipment ? validateForms() : false;
     if (validate) return;
+    gaEventTracker('cart-submit')
     props.cartSend(props.cart, {
       name,
       phone,
@@ -63,6 +66,7 @@ function OrderPopup(props) {
     });
   };
   const getLocation = (e) => {
+    gaEventTracker('get-location')
     const geo = navigator.geolocation;
     geo.getCurrentPosition(
       (pos) => {

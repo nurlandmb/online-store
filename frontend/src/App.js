@@ -13,11 +13,11 @@ import AdminCouponsScreen from './admin/screens/AdminCouponsScreen';
 import Header from './common/Header';
 import { ToastContainer } from 'react-toastify';
 import { connect } from 'react-redux';
-import Footer from './common/Footer'
+import Footer from './common/Footer';
+import ReactGA from 'react-ga';
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
 
 function App(props) {
-  
-  
   return (
     <div className="App">
       <Header userInfo={props.profile.userInfo} />

@@ -3,7 +3,10 @@ import telegramLogo from '../../src/img/telegram.png'
 import instaLogo from '../../src/img/instagram.png'
 import phone from '../../src/img/telephone.png'
 import { Link } from 'react-router-dom'
+import useAnalyticsEventTracker from '../useAnalyticsEventTracker';
+
 function Footer() {
+  
   return (
     <footer className="footer">
       <div className="container">
