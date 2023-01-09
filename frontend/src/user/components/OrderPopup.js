@@ -6,6 +6,7 @@ import { cartSend } from '../../redux/actions/cart';
 import InputMask from 'react-input-mask';
 import { Link } from 'react-router-dom';
 import useAnalyticsEventTracker from '../../useAnalyticsEventTracker';
+import ReactGA from 'react-ga';
 
 function OrderPopup(props) {
   const gaEventTracker = useAnalyticsEventTracker('Cart');
@@ -55,7 +56,12 @@ function OrderPopup(props) {
     e.preventDefault();
     const validate = shipment ? validateForms() : false;
     if (validate) return;
-    gaEventTracker('cart-submit')
+    ReactGA.event({
+      category: 'Покупка',
+      action: 'test action',
+      label: 'test label',
+      value: props.cart.totalWtihCoupon || props.cart.total,
+    });
     props.cartSend(props.cart, {
       name,
       phone,

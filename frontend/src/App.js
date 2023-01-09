@@ -15,9 +15,14 @@ import { ToastContainer } from 'react-toastify';
 import { connect } from 'react-redux';
 import Footer from './common/Footer';
 import ReactGA from 'react-ga';
+import { useEffect } from 'react';
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS);
 
 function App(props) {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname)
+  }, [])
+  
   return (
     <div className="App">
       <Header userInfo={props.profile.userInfo} />
